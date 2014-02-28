@@ -4,5 +4,6 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'thor'
-gem 'rspec'
-
+gem 'httparty'
+gem 'multi_json'
+gem 'command_line_reporter'

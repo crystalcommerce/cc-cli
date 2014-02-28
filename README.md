@@ -1,6 +1,6 @@
-# Cc::Api::Explorer
+# CC API EXPLORER
 
-TODO: Write a gem description
+This is a command line client for exploring Crystal Commerce APIs
 
 ## Installation
 

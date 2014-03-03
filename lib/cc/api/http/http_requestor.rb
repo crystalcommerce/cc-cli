@@ -2,8 +2,8 @@ module Cc
   module Api
     module Http
       class HttpRequestor
-        def self.request_for_json 
-          response = HTTParty.get('https://catalog.crystalcommerce.com/api/v1/products')
+        def self.request_for_json params
+          HTTParty.get(params[:request])
         end
       end 
     end

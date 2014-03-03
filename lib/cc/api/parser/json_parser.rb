@@ -15,6 +15,7 @@ module Cc
 
         def self.reduce_for_lattice_products json, cols
           result = []
+          #TODO: verify this
           json["product"]["variants"][0]["variant"]["store_variants"].each do |sv|
             store_variant = sv["store_variant"]
             result << {

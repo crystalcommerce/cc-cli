@@ -17,7 +17,8 @@ module Cc
         ]
 
         ACTIONS = {
-          "lattice-products" => "https://api.crystalcommerce.com/v1/lattice/products"
+          "lattice-products" => "http://lattice.crystalcommerce.com/api/v1/products"
+          #"lattice-products" => "https://api.crystalcommerce.com/v1/lattice/products"
         }
 
         def self.map args

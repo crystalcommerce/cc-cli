@@ -13,6 +13,8 @@ module Cc
 
         def products *args
           #put lattice product call instead of catalog
+          args.unshift "lattice-products"
+          puts args.inspect
           response = HTTParty.get('https://catalog.crystalcommerce.com/api/v1/products')
           table :border => true do
             row do

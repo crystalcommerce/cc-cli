@@ -3,7 +3,7 @@ require 'cc/api/parser/arguments_parser'
 describe Cc::Api::Parser::ArgumentsParser do
   describe "parse" do
     context "lattice" do
-      let(:url) { "https://api.crystalcommerce.com/v1/lattice/" }
+      let(:url) { "http://lattice.crystalcommerce.com/api/v1/" }
       let(:rand) { "123" }
       let(:expected_result) { {request: url + "products/" + rand + "?skus=" + rand } }
 

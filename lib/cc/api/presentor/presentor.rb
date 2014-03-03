@@ -2,22 +2,24 @@ require 'command_line_reporter'
 
 module Cc
   module Api
-    module Explorer
-      class Presentor
+    module Presentor
+      class Tabler
         include CommandLineReporter
 
-        table :border => true do
-          row do
-            column('name', align: 'left', width: 30, padding: 5)
-            column('seoname', align: 'left', width: 30, padding: 5)
-            column('category_name', align: 'left', width: 30, padding: 5)
-          end
-
-          response['products'].each do |product|  
+        def present result
+          table :border => true do
             row do
-              column(product['name'])
-              column(product['seoname'])
-              column(product['category_name'])
+              result.first.collect{|k,v| k}.each do |col|
+                column(col, align: 'left', width: 30, padding: 5)
+              end
+            end
+
+            result.each do |res|
+              row do
+                res.collect{|k,v| v}.each do |val|
+                  column(val)
+                end
+              end
             end
           end
         end

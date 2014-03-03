@@ -2,4 +2,4 @@
 require 'cc/api/explorer'
 require 'httparty'
 require 'command_line_reporter'
-Cc::Api::Explorer::Products.start
+Cc::Api::Explorer::CLI.start

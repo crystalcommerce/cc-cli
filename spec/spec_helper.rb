@@ -14,4 +14,6 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+  LATTICE_PRODUCTS_RESPONSE = IO.read("dummy_data/lattice_products.json") # sample json response from reddit - hot.json
 end
+

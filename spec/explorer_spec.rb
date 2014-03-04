@@ -7,17 +7,24 @@ describe Cc::Api::Explorer::CLI do
   context "lattice" do
     context "products" do
       let(:id) { "123" }
-      let(:skus) { "123abc" }
+      let(:skus) { ["123abc", "456def"] }
       let(:args) { "--id #{id} --sku #{skus}" }
       let(:cc) { cc = Cc::Api::Explorer::CLI.new }
 
       before(:each) do
-        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus=#{skus}").
+        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}").
+          to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+
+        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
           to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
       end
 
       it "returns something if arguments are correct" do
-        cc.latticeproducts "--id", "123", "--sku", "123abc"
+        cc.latticeproducts "--id", "123", "--skus", "123abc"
+      end
+
+      it "returns something if arguments are correct for multiple skus" do
+        cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
       end
 
       it "returns an exception if arguments are not correct" do

@@ -5,10 +5,10 @@ describe Cc::Api::Parser::ArgumentsParser do
     context "lattice" do
       let(:url) { "http://lattice.crystalcommerce.com/api/v1/" }
       let(:rand) { "123" }
-      let(:expected_result) { {request: url + "products/" + rand + "?skus=" + rand } }
+      let(:expected_result) { {request: url + "products/" + rand + "?skus[]=" + rand } }
 
       it "returns json object when arguments are valid" do
-        args = ["lattice-products", "--id", rand, "--sku", rand]
+        args = ["lattice-products", "--id", rand, "--skus", rand]
         res = Cc::Api::Parser::ArgumentsParser.parse args
         res.should eq expected_result
       end

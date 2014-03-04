@@ -22,7 +22,7 @@ module Cc
         protected
 
         def self.build_action_url args, res
-          { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?skus=" + res[:skus] }
+          { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') }
         end
       end
     end

@@ -12,8 +12,8 @@ module Cc
         }
 
         POSSIBILITY_REGEXES = [
-          /^--id\s[0-9]*\s--sku\s[0-9a-z]$*/,
-          /^--sku\s[0-9a-z]*\s--id\s[0-9]$*/
+          /^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/,
+          /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/
         ]
 
         ACTIONS = {
@@ -25,9 +25,9 @@ module Cc
           match = self.match args
           case match
           when 0
-            return {:id => args[2], :skus => args[4]} 
+            return {:id => args[2], :skus => args[4].to_s.split(',')} 
           when 1
-            return {:id => args[4], :skus => args[2]} 
+            return {:id => args[4], :skus => args[2].to_s.split(',')} 
           else 
             return nil
           end

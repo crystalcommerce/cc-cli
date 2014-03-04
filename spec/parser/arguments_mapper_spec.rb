@@ -3,20 +3,20 @@ require 'cc/api/parser/arguments_mapper'
 describe Cc::Api::Parser::ArgumentsMapper do
   describe "map" do
     context "lattice" do
-      let(:rand) { 123 }
-      let(:args) { ["lattice-products", "--id", rand, "--sku", rand] }
-      let(:args2) { ["lattice-products", "--sku", rand, "--id", rand] }
+      let(:rand) { "123" }
+      let(:args) { ["lattice-products", "--id", rand, "--skus", rand] }
+      let(:args2) { ["lattice-products", "--skus", rand, "--id", rand] }
       let(:wrong_args) { ["this", "is", "a", "wrong", "argument"] }
 
       it "matches the args and creates a json object that maps the args" do
         res = Cc::Api::Parser::ArgumentsMapper.map args
-        expected_res = {id: rand, skus: rand}
+        expected_res = {id: rand, skus: [rand]}
         res.should eq expected_res
       end
 
       it "matches the args (--sku before --id) and creates a json object that maps the args" do
         res = Cc::Api::Parser::ArgumentsMapper.map args2
-        expected_res = {id: rand, skus: rand}
+        expected_res = {id: rand, skus: [rand]}
         res.should eq expected_res
       end
 

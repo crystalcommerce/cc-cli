@@ -1,3 +1,5 @@
+require 'httparty'
+
 module Cc
   module Api
     module Http

@@ -12,8 +12,8 @@ module Cc
         }
 
         POSSIBILITY_REGEXES = [
-          /^--id\s[0-9]*\s--sku\s[0-9a-b]$*/,
-          /^--sku\s[0-9a-b]*\s--id\s[0-9]$*/
+          /^--id\s[0-9]*\s--sku\s[0-9a-z]$*/,
+          /^--sku\s[0-9a-z]*\s--id\s[0-9]$*/
         ]
 
         ACTIONS = {
@@ -28,7 +28,7 @@ module Cc
             return {:id => args[2], :skus => args[4]} 
           when 1
             return {:id => args[4], :skus => args[2]} 
-          else #nil
+          else 
             return nil
           end
         end

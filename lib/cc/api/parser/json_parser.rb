@@ -6,6 +6,8 @@ module Cc
           case action
           when "lattice-products"
             self.reduce_for_lattice_products json, cols  
+          when "lattice-stores"
+            self.reduce_for_lattice_stores json, cols  
           else
             nil
           end
@@ -15,7 +17,6 @@ module Cc
 
         def self.reduce_for_lattice_products json, cols
           result = []
-          #TODO: verify this
           json["product"]["variants"][0]["variant"]["store_variants"].each do |sv|
             store_variant = sv["store_variant"]
             result << {
@@ -24,6 +25,20 @@ module Cc
               inventory_qty: store_variant["inventory_qty"],
               sell_price: store_variant["sell_price"]["money"]["cents"],
               buy_price: store_variant["buy_price"]["money"]["cents"]
+            } 
+          end
+
+          result
+        end
+
+        def self.reduce_for_lattice_stores json, cols
+          result = []
+          json.each do |s|
+            store = s["store"]
+            result << {
+              name: store["name"],
+              postal_code: store["postal_code"] || "",
+              url: store["url"] || ""
             } 
           end
 

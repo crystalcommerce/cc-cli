@@ -14,9 +14,20 @@ module Cc
 
         desc "latticeproducts --id ID --sku SKU", "returns <storename | qty | inventory_qty | sell_price | buy_price> for a particular sku of a product"
         def latticeproducts *args
-          action = "lattice-products"
-          args.unshift action
+          args.unshift "lattice-products"
+          self.perform args
+        end
 
+        desc "latticestores", "returns <name | postal_code | url"
+        def latticestores *args
+          args.unshift "lattice-stores"
+          self.perform args
+        end
+
+        protected
+
+        def perform args
+          action = args.first
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 

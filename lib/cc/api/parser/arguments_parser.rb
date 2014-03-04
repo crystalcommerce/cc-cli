@@ -22,7 +22,14 @@ module Cc
         protected
 
         def self.build_action_url args, res
-          { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') }
+          case args.first
+          when "lattice-products"
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') }
+          when "lattice-stores"
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+          else
+            nil
+          end
         end
       end
     end

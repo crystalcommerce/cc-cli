@@ -1,4 +1,4 @@
-require 'cc/api/parser/arguments_mapper'
+require 'spec_helper'
 
 describe Cc::Api::Parser::ArgumentsMapper do
   describe "map" do

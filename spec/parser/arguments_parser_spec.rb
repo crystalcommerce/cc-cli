@@ -1,4 +1,4 @@
-require 'cc/api/parser/arguments_parser'
+require 'spec_helper'
 
 describe Cc::Api::Parser::ArgumentsParser do
   describe "parse" do

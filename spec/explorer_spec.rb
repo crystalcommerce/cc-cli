@@ -1,8 +1,4 @@
-require 'cc/api/explorer'
-require 'webmock/rspec'
-
-LATTICE_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/lattice_products.json") # sample json response 
-LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
+require 'spec_helper'
 
 describe Cc::Api::Explorer::CLI do
   context "lattice" do
@@ -33,9 +29,11 @@ describe Cc::Api::Explorer::CLI do
 
       context "something is not returned" do
         it "returns an exception if arguments are not correct" do
-          expect {
+          printed = capture_stdout do
             cc.latticeproducts "wrong", "arguments"
-          }.to raise_error Cc::Api::Parser::CLIArgumentsException
+          end
+
+          printed.should eq "Error. Please run 'cc' for a list of available commands and their corresponding usage\n"
         end
 
         it "returns blank if blank variants was returned" do

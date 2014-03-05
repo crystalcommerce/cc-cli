@@ -10,15 +10,13 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
-        include CommandLineReporter
-
         desc "latticeproducts --id ID --sku SKU", "returns <storename | qty | inventory_qty | sell_price | buy_price> for a particular sku of a product"
         def latticeproducts *args
           args.unshift "lattice-products"
           self.perform args
         end
 
-        desc "latticestores", "returns <name | postal_code | url"
+        desc "latticestores", "returns <name | postal_code | url>"
         def latticestores *args
           args.unshift "lattice-stores"
           self.perform args
@@ -40,10 +38,9 @@ module Cc
 
             tabler = Cc::Api::Presentor::Tabler.new
             tabler.present result
-          #rescue Cc::Api::Parser::CLIArgumentsException
-          #  puts "PUT ERROR HERE"
-          #rescue 
-          #  puts "PUT ERROR HERE AS WELL"
+            #puts "Command not found. Please run 'cc' to print all the available commands"
+          rescue Cc::Api::Parser::CLIArgumentsException
+            puts "Error. Please run 'cc' for a list of available commands and their corresponding usage"
           end
         end
       end

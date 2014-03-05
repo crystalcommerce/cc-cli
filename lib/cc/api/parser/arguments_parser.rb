@@ -1,5 +1,6 @@
 require 'cc/api/parser/arguments_mapper'
 
+#TODO: Dry this up!
 module Cc
   module Api
     module Parser
@@ -26,6 +27,8 @@ module Cc
           when "lattice-products"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') }
           when "lattice-stores"
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+          when "catalog-products"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           else
             nil

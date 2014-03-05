@@ -4,6 +4,7 @@ require 'json'
 LATTICE_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/lattice_products.json") # sample json response 
 LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
 
+#TODO: Dry this up
 describe Cc::Api::Parser::JsonParser do
   describe "parse" do
     context "lattice" do
@@ -43,6 +44,21 @@ describe Cc::Api::Parser::JsonParser do
         it "returns blank when json response is nil" do
           json = nil
           result = Cc::Api::Parser::JsonParser.reduce "lattice-stores", json, []
+        end
+      end
+    end
+
+    context "catalog" do
+      context "products" do
+        it "returns json object when arguments are valid" do
+          json = JSON.parse(CATALOG_PRODUCTS_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "catalog-products", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:seoname].should_not eq nil
+          result.first[:category_name].should_not eq nil
+          result.first[:weight].should_not eq nil
+          result.first[:description].should_not eq nil
         end
       end
     end

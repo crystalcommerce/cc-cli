@@ -10,6 +10,7 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
+
         desc "latticeproducts --id ID --sku SKU", "returns <storename | qty | inventory_qty | sell_price | buy_price> for a particular sku of a product"
         def latticeproducts *args
           args.unshift "lattice-products"
@@ -19,6 +20,12 @@ module Cc
         desc "latticestores", "returns <name | postal_code | url>"
         def latticestores *args
           args.unshift "lattice-stores"
+          self.perform args
+        end
+
+        desc "catalogproducts", "returns <*>"
+        def catalogproducts *args
+          args.unshift "catalog-products"
           self.perform args
         end
 

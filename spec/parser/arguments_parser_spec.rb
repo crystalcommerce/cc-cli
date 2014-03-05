@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+#TODO: Dry this up
 describe Cc::Api::Parser::ArgumentsParser do
   describe "parse" do
     context "lattice" do
@@ -36,6 +37,19 @@ describe Cc::Api::Parser::ArgumentsParser do
 
         it "returns json object when arguments are valid" do
           args = ["lattice-stores"]
+          res = Cc::Api::Parser::ArgumentsParser.parse args
+          res.should eq expected_result
+        end
+      end
+    end
+
+    context "catalog" do
+      context "products" do
+        let(:url) { "https://catalog.crystalcommerce.com/api/v1/products" }
+        let(:expected_result) { { request: url } }
+
+        it "returns json object when arguments are valid" do
+          args = ["catalog-products"]
           res = Cc::Api::Parser::ArgumentsParser.parse args
           res.should eq expected_result
         end

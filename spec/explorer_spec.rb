@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Cc::Api::Explorer::CLI do
-  context "lattice" do
-    let(:cc) { cc = Cc::Api::Explorer::CLI.new }
+  let(:cc) { cc = Cc::Api::Explorer::CLI.new }
 
+  context "lattice" do
     context "products" do
       let(:id) { "123" }
       let(:skus) { ["123abc", "456def"] }
@@ -70,6 +70,22 @@ describe Cc::Api::Explorer::CLI do
           cc.latticestores
         end
       end
+    end
+  end
+
+  context "catalog" do
+    context "products" do
+      context "something is returned" do
+        before(:each) do
+          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/products").
+            to_return(:status => 200, :body => CATALOG_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+        end
+
+        it "returns something if arguments are correct" do
+          cc.catalogproducts 
+        end
+      end
+
     end
   end
 end

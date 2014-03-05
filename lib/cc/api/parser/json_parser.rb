@@ -8,6 +8,8 @@ module Cc
             self.reduce_for_lattice_products json, cols  
           when "lattice-stores"
             self.reduce_for_lattice_stores json, cols  
+          when "catalog-products"
+            self.reduce_for_catalog_products json, cols  
           else
             nil
           end
@@ -50,6 +52,25 @@ module Cc
 
           result
         end
+
+        def self.reduce_for_catalog_products json, cols
+          result = []
+
+          unless json.nil?
+            json["products"].each do |p|
+              result << {
+                name: p["name"],
+                seoname: p["seoname"],
+                category_name: p["category_name"],
+                weight: p["weight"],
+                description: p["description"]
+              } 
+            end
+          end
+
+          result
+        end
+
       end
     end
   end

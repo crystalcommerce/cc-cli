@@ -13,12 +13,14 @@ module Cc
 
         POSSIBILITY_REGEXES = {
           "lattice-products" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
-          "lattice-stores" => [/^$/]
+          "lattice-stores" => [/^$/],
+          "catalog-products" => [/^$/]
         }
 
         ACTIONS = {
           "lattice-products" => "http://lattice.crystalcommerce.com/api/v1/products",
-          "lattice-stores" => "http://lattice.crystalcommerce.com/api/v1/stores"
+          "lattice-stores" => "http://lattice.crystalcommerce.com/api/v1/stores",
+          "catalog-products" => "https://catalog.crystalcommerce.com/api/v1/products"
         }
 
         def self.map args
@@ -34,6 +36,14 @@ module Cc
               return nil
             end
           when "lattice-stores"
+            match = self.match args 
+            case match
+            when 0
+              return {}
+            else
+              return nil
+            end
+          when "catalog-products"
             match = self.match args 
             case match
             when 0

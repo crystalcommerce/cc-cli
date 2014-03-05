@@ -13,37 +13,64 @@ describe Cc::Api::Explorer::CLI do
       let(:skus) { ["123abc", "456def"] }
       let(:args) { "--id #{id} --sku #{skus}" }
 
-      before(:each) do
-        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}").
-          to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+      context "something is returned" do
+        before(:each) do
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}").
+            to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
-          to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+            to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+        end
+
+        it "returns something if arguments are correct" do
+          cc.latticeproducts "--id", "123", "--skus", "123abc"
+        end
+
+        it "returns something if arguments are correct for multiple skus" do
+          cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+        end
       end
 
-      it "returns something if arguments are correct" do
-        cc.latticeproducts "--id", "123", "--skus", "123abc"
-      end
+      context "something is not returned" do
+        it "returns an exception if arguments are not correct" do
+          expect {
+            cc.latticeproducts "wrong", "arguments"
+          }.to raise_error Cc::Api::Parser::CLIArgumentsException
+        end
 
-      it "returns something if arguments are correct for multiple skus" do
-        cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
-      end
+        it "returns blank if blank variants was returned" do
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+            to_return(:status => 200, :body => '{"product":{"product_id":201750,"variants":[]}}', :headers => {"Content-Type" => "application/json"})
 
-      it "returns an exception if arguments are not correct" do
-        expect {
-          cc.latticeproducts "wrong", "arguments"
-        }.to raise_error Cc::Api::Parser::CLIArgumentsException
+            cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+        end
+
+        it "returns blank if nil json was returned" do
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+            to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
+
+            cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+        end
       end
     end
 
     context "stores" do
-      before(:each) do
-        stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/stores").
-          to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+      context "something is returned" do
+        it "returns something" do
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/stores").
+            to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+
+          cc.latticestores
+        end
       end
 
-      it "returns something" do
-        cc.latticestores
+      context "something is not returned" do
+        it "returns nothing" do
+          stub_request(:get, "http://lattice.crystalcommerce.com/api/v1/stores").
+            to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
+
+          cc.latticestores
+        end
       end
     end
   end

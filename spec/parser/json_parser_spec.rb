@@ -18,6 +18,16 @@ describe Cc::Api::Parser::JsonParser do
           result.first[:sell_price].should_not eq nil
           result.first[:buy_price].should_not eq nil
         end
+
+        it "returns blank when response json variants response is blank" do
+          json = JSON.parse('{"product":{"product_id":123,"variants":[]}}')
+          result = Cc::Api::Parser::JsonParser.reduce "lattice-products", json, []
+        end
+
+        it "returns blank when response json response is nil" do
+          json = nil
+          result = Cc::Api::Parser::JsonParser.reduce "lattice-products", json, []
+        end
       end
 
       context "stores" do
@@ -28,6 +38,11 @@ describe Cc::Api::Parser::JsonParser do
           result.first[:name].should_not eq nil
           result.first[:postal_code].should_not eq nil
           result.first[:url].should_not eq nil
+        end
+
+        it "returns blank when json response is nil" do
+          json = nil
+          result = Cc::Api::Parser::JsonParser.reduce "lattice-stores", json, []
         end
       end
     end

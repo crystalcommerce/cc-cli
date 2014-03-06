@@ -41,6 +41,12 @@ module Cc
           self.perform args
         end
 
+        desc "catalogstores", "returns <*>"
+        def catalogstores *args
+          args.unshift "catalog-stores"
+          self.perform args
+        end
+
         protected
 
         def perform args

@@ -14,6 +14,8 @@ module Cc
             self.reduce_for_catalog_products json, cols  
           when "catalog-product_types"
             self.reduce_for_catalog_product_types json, cols  
+          when "catalog-stores"
+            self.reduce_for_catalog_stores json, cols  
           else
             nil
           end
@@ -104,6 +106,29 @@ module Cc
                 default_weight: p["default_weight"],
                 amazon_search_index: p["amazon_search_index"] || "",
                 weight: p["weight"] || "",
+              } 
+            end
+          end
+
+          result
+        end
+
+        def self.reduce_for_catalog_stores json, cols
+          result = []
+
+          unless json.nil? || json["stores"].empty?
+            json["stores"].each do |store|
+              result << {
+                name: store["name"],
+                address1: store["address1"],
+                address2: store["address2"],
+                postal_code: store["postal_code"],
+                city: store["city"],
+                state: store["state"],
+                country: store["country"]
+                #url: store["url"]
+                #latitude: store["latitude"],
+                #longitude: store["longitude"]
               } 
             end
           end

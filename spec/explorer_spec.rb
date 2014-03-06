@@ -112,5 +112,18 @@ describe Cc::Api::Explorer::CLI do
         end
       end
     end
+
+    context "stores" do
+      context "something is returned" do
+        before(:each) do
+          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/stores").
+            to_return(:status => 200, :body => CATALOG_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+        end
+
+        it "returns something if arguments are correct" do
+          cc.catalogstores
+        end
+      end
+    end
   end
 end

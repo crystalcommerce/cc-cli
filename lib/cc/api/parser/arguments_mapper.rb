@@ -2,6 +2,7 @@ module Cc
   module Api
     module Parser
 
+      #TODO Dry this up
       class ArgumentsMapper
         # cc lattice-products OPTIONS [COLUMNS]
 
@@ -16,7 +17,8 @@ module Cc
           "lattice-stores" => [/^$/],
           "lattice-offers" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
           "catalog-products" => [/^$/],
-          "catalog-product_types" => [/^$/]
+          "catalog-product_types" => [/^$/],
+          "catalog-stores" => [/^$/]
         }
 
         ACTIONS = {
@@ -24,7 +26,8 @@ module Cc
           "lattice-stores" => {:url => "http://lattice.crystalcommerce.com/api/v1/stores"},
           "lattice-offers" => {:url => "http://lattice.crystalcommerce.com/api/v1/offers", :method => "POST"},
           "catalog-products" => {:url => "https://catalog.crystalcommerce.com/api/v1/products"},
-          "catalog-product_types" => {:url => "https://catalog.crystalcommerce.com/api/v1/product_types"}
+          "catalog-product_types" => {:url => "https://catalog.crystalcommerce.com/api/v1/product_types"},
+          "catalog-stores" => {:url => "https://catalog.crystalcommerce.com/api/v1/stores"}
         }
 
         def self.map args
@@ -66,6 +69,14 @@ module Cc
               return nil
             end
           when "catalog-product_types"
+            match = self.match args 
+            case match
+            when 0
+              return {}
+            else
+              return nil
+            end
+          when "catalog-stores"
             match = self.match args 
             case match
             when 0

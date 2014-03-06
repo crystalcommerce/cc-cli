@@ -81,7 +81,7 @@ describe Cc::Api::Parser::JsonParser do
       end
 
       context "product types" do
-        it "returns json object when arguments are valid xx" do
+        it "returns json object when arguments are valid" do
           json = JSON.parse(CATALOG_PRODUCT_TYPES_RESPONSE)
           result = Cc::Api::Parser::JsonParser.reduce "catalog-product_types", json, []
 
@@ -89,6 +89,24 @@ describe Cc::Api::Parser::JsonParser do
           result.first[:default_weight].should_not eq nil
           result.first[:amazon_search_index].should_not eq nil
           result.first[:weight].should_not eq nil
+        end
+      end
+
+      context "stores" do
+        it "returns json object when arguments are valid" do
+          json = JSON.parse(CATALOG_STORES_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "catalog-stores", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:address1].should_not eq nil
+          result.first[:address2].should_not eq nil
+          result.first[:postal_code].should_not eq nil
+          result.first[:city].should_not eq nil
+          result.first[:state].should_not eq nil
+          result.first[:country].should_not eq nil
+          result.first[:url].should_not eq nil
+          result.first[:latitude].should_not eq nil
+          result.first[:longitude].should_not eq nil
         end
       end
     end

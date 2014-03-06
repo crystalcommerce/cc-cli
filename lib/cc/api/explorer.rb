@@ -35,6 +35,12 @@ module Cc
           self.perform args
         end
 
+        desc "catalogproducttypes", "returns <*>"
+        def catalogproducttypes *args
+          args.unshift "catalog-product_types"
+          self.perform args
+        end
+
         protected
 
         def perform args

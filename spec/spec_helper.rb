@@ -22,5 +22,6 @@ RSpec.configure do |config|
   LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
   LATTICE_OFFERS_RESPONSE = IO.read("spec/dummy_data/lattice_offers.json") # sample json response 
   CATALOG_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/catalog_products.json") # sample json response 
+  CATALOG_PRODUCT_TYPES_RESPONSE = IO.read("spec/dummy_data/catalog_product_types.json") # sample json response 
 end
 

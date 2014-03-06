@@ -60,6 +60,15 @@ describe Cc::Api::Parser::ArgumentsMapper do
           res.should eq expected_res
         end
       end
+
+      context "product types" do
+        let(:args) { ["catalog-product_types"] }
+        it "matches the args and creates a json object that maps the args" do
+          res = Cc::Api::Parser::ArgumentsMapper.map args
+          expected_res = {}
+          res.should eq expected_res
+        end
+      end
     end
   end
 end

@@ -79,6 +79,18 @@ describe Cc::Api::Parser::JsonParser do
           result.first[:description].should_not eq nil
         end
       end
+
+      context "product types" do
+        it "returns json object when arguments are valid xx" do
+          json = JSON.parse(CATALOG_PRODUCT_TYPES_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "catalog-product_types", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:default_weight].should_not eq nil
+          result.first[:amazon_search_index].should_not eq nil
+          result.first[:weight].should_not eq nil
+        end
+      end
     end
   end
 end

@@ -15,14 +15,16 @@ module Cc
           "lattice-products" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
           "lattice-stores" => [/^$/],
           "lattice-offers" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
-          "catalog-products" => [/^$/]
+          "catalog-products" => [/^$/],
+          "catalog-product_types" => [/^$/]
         }
 
         ACTIONS = {
           "lattice-products" => {:url => "http://lattice.crystalcommerce.com/api/v1/products"},
           "lattice-stores" => {:url => "http://lattice.crystalcommerce.com/api/v1/stores"},
           "lattice-offers" => {:url => "http://lattice.crystalcommerce.com/api/v1/offers", :method => "POST"},
-          "catalog-products" => {:url => "https://catalog.crystalcommerce.com/api/v1/products"}
+          "catalog-products" => {:url => "https://catalog.crystalcommerce.com/api/v1/products"},
+          "catalog-product_types" => {:url => "https://catalog.crystalcommerce.com/api/v1/product_types"}
         }
 
         def self.map args
@@ -63,9 +65,18 @@ module Cc
             else
               return nil
             end
+          when "catalog-product_types"
+            match = self.match args 
+            case match
+            when 0
+              return {}
+            else
+              return nil
+            end
           else
             return nil
           end
+
         end
 
         protected

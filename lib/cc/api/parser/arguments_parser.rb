@@ -39,6 +39,8 @@ module Cc
             #{ :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           when "catalog-products"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+          when "catalog-product_types"
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           else
             nil
           end

@@ -12,6 +12,8 @@ module Cc
             self.reduce_for_lattice_offers json, cols  
           when "catalog-products"
             self.reduce_for_catalog_products json, cols  
+          when "catalog-product_types"
+            self.reduce_for_catalog_product_types json, cols  
           else
             nil
           end
@@ -92,6 +94,22 @@ module Cc
           result
         end
 
+        def self.reduce_for_catalog_product_types json, cols
+          result = []
+
+          unless json.nil? || json["product_types"].empty?
+            json["product_types"].each do |p|
+              result << {
+                name: p["name"],
+                default_weight: p["default_weight"],
+                amazon_search_index: p["amazon_search_index"] || "",
+                weight: p["weight"] || "",
+              } 
+            end
+          end
+
+          result
+        end
       end
     end
   end

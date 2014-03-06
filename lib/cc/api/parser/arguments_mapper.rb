@@ -14,13 +14,15 @@ module Cc
         POSSIBILITY_REGEXES = {
           "lattice-products" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
           "lattice-stores" => [/^$/],
+          "lattice-offers" => [/^--id\s[0-9]*\s--skus\s[0-9a-z(,)*]*$/, /^--skus\s[0-9a-z]*\s--id\s[0-9(,)*]*$/],
           "catalog-products" => [/^$/]
         }
 
         ACTIONS = {
-          "lattice-products" => "http://lattice.crystalcommerce.com/api/v1/products",
-          "lattice-stores" => "http://lattice.crystalcommerce.com/api/v1/stores",
-          "catalog-products" => "https://catalog.crystalcommerce.com/api/v1/products"
+          "lattice-products" => {:url => "http://lattice.crystalcommerce.com/api/v1/products"},
+          "lattice-stores" => {:url => "http://lattice.crystalcommerce.com/api/v1/stores"},
+          "lattice-offers" => {:url => "http://lattice.crystalcommerce.com/api/v1/offers", :method => "POST"},
+          "catalog-products" => {:url => "https://catalog.crystalcommerce.com/api/v1/products"}
         }
 
         def self.map args
@@ -41,6 +43,16 @@ module Cc
             when 0
               return {}
             else
+              return nil
+            end
+          when "lattice-offers"
+            match = self.match args
+            case match
+            when 0
+              return {:id => args[2], :skus => args[4].to_s.split(',')} 
+            when 1
+              return {:id => args[4], :skus => args[2].to_s.split(',')} 
+            else 
               return nil
             end
           when "catalog-products"

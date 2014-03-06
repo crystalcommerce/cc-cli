@@ -4,9 +4,9 @@ describe Cc::Api::Explorer::CLI do
   let(:cc) { cc = Cc::Api::Explorer::CLI.new }
 
   context "lattice" do
+    let(:skus) { ["123abc", "456def"] }
     context "products" do
       let(:id) { "123" }
-      let(:skus) { ["123abc", "456def"] }
       let(:args) { "--id #{id} --sku #{skus}" }
 
       context "something is returned" do
@@ -71,8 +71,20 @@ describe Cc::Api::Explorer::CLI do
         end
       end
     end
-  end
 
+    context "offers" do
+      context "something is returned" do
+        it "returns something" do
+          stub_request(:post, "http://lattice.crystalcommerce.com/api/v1/offers").
+            with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
+            to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+
+            cc.latticeoffers "--id", "201750", "--skus", "#{skus.join(',')}"
+        end
+      end
+    end
+  end
+  
   context "catalog" do
     context "products" do
       context "something is returned" do
@@ -85,7 +97,6 @@ describe Cc::Api::Explorer::CLI do
           cc.catalogproducts 
         end
       end
-
     end
   end
 end

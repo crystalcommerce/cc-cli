@@ -8,6 +8,8 @@ module Cc
             self.reduce_for_lattice_products json, cols  
           when "lattice-stores"
             self.reduce_for_lattice_stores json, cols  
+          when "lattice-offers"
+            self.reduce_for_lattice_offers json, cols  
           when "catalog-products"
             self.reduce_for_catalog_products json, cols  
           else
@@ -46,6 +48,25 @@ module Cc
                 name: store["name"],
                 postal_code: store["postal_code"] || "",
                 url: store["url"] || ""
+              } 
+            end
+          end
+
+          result
+        end
+
+        def self.reduce_for_lattice_offers json, cols
+          result = []
+
+          unless json.nil?
+            offers = json.first.last
+            offers.each do |offer|
+              result << {
+                name: offer["store"]["database_name"],
+                buy_price: offer["buy_price"]["cents"],
+                store_credit_buy_price: offer["store_credit_buy_price"]["cents"],
+                qty: offer["url"] || "",
+                web_qty: offer["web_qty"] || "",
               } 
             end
           end

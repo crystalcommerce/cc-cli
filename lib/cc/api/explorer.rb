@@ -23,6 +23,12 @@ module Cc
           self.perform args
         end
 
+        desc "latticestores", "returns <*>"
+        def latticeoffers *args
+          args.unshift "lattice-offers"
+          self.perform args
+        end
+
         desc "catalogproducts", "returns <*>"
         def catalogproducts *args
           args.unshift "catalog-products"

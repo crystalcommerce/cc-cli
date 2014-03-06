@@ -25,9 +25,18 @@ module Cc
         def self.build_action_url args, res
           case args.first
           when "lattice-products"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') }
+            #TODO fix this
+            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:url] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') } }
           when "lattice-stores"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+          when "lattice-offers"
+            { :request => { 
+                url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:url],
+                body: {"search" => {"skus" => {"#{res[:id]}" => res[:skus].collect{|x| x.to_s }}}},
+                method: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:method]
+              } 
+            }
+            #{ :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           when "catalog-products"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           else

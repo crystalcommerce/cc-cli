@@ -46,6 +46,24 @@ describe Cc::Api::Parser::JsonParser do
           result = Cc::Api::Parser::JsonParser.reduce "lattice-stores", json, []
         end
       end
+
+      context "offers" do
+        it "returns json object when arguments are valid" do
+          json = JSON.parse(LATTICE_OFFERS_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "lattice-offers", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:buy_price].should_not eq nil
+          result.first[:store_credit_buy_price].should_not eq nil
+          result.first[:qty].should_not eq nil
+          result.first[:web_qty].should_not eq nil
+        end
+
+        it "returns blank when json response is nil" do
+          json = nil
+          result = Cc::Api::Parser::JsonParser.reduce "lattice-stores", json, []
+        end
+      end
     end
 
     context "catalog" do

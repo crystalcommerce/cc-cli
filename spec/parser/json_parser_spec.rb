@@ -104,11 +104,26 @@ describe Cc::Api::Parser::JsonParser do
           result.first[:city].should_not eq nil
           result.first[:state].should_not eq nil
           result.first[:country].should_not eq nil
-          result.first[:url].should_not eq nil
-          result.first[:latitude].should_not eq nil
-          result.first[:longitude].should_not eq nil
+          #result.first[:url].should_not eq nil
+          #result.first[:latitude].should_not eq nil
+          #result.first[:longitude].should_not eq nil
         end
       end
+
+      context "categories" do
+        it "returns json object when arguments are valid" do
+          json = JSON.parse(CATALOG_CATEGORIES_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "catalog-categories", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:seoname].should_not eq nil
+          result.first[:description].should_not eq nil
+          result.first[:available_on].should_not eq nil
+          result.first[:set_code].should_not eq nil
+          result.first[:product_type_id].should_not eq nil
+        end
+      end
+
     end
   end
 end

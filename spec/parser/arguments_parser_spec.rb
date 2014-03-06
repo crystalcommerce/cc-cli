@@ -86,6 +86,17 @@ describe Cc::Api::Parser::ArgumentsParser do
           res.should eq expected_result
         end
       end
+
+      context "categories" do
+        let(:url) { "https://catalog.crystalcommerce.com/api/v1/categories" }
+        let(:expected_result) { { request: { url: url } } }
+
+        it "returns json object when arguments are valid" do
+          args = ["catalog-categories"]
+          res = Cc::Api::Parser::ArgumentsParser.parse args
+          res.should eq expected_result
+        end
+      end
     end
   end
 end

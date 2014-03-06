@@ -43,6 +43,8 @@ module Cc
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           when "catalog-stores"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+          when "catalog-categories"
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           else
             nil
           end

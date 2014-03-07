@@ -5,6 +5,20 @@
 require 'webmock/rspec'
 require 'cc/api/explorer'
 
+def suppress_stdouts config #need to suppress command_line_reporter's output
+  original_stderr = $stderr
+  original_stdout = $stdout
+  config.before(:all) do 
+    # Redirect stderr and stdout
+    $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
+    $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
+  end
+  config.after(:all) do 
+    $stderr = original_stderr
+    $stdout = original_stdout
+  end
+end
+
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
@@ -18,6 +32,10 @@ RSpec.configure do |config|
   #     --seed 1234
 
   config.order = 'random'
+
+  suppress_stdouts config
+
+
   LATTICE_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/lattice_products.json") # sample json response 
   LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
   LATTICE_OFFERS_RESPONSE = IO.read("spec/dummy_data/lattice_offers.json") # sample json response 
@@ -26,4 +44,5 @@ RSpec.configure do |config|
   CATALOG_STORES_RESPONSE = IO.read("spec/dummy_data/catalog_stores.json") # sample json response 
   CATALOG_CATEGORIES_RESPONSE = IO.read("spec/dummy_data/catalog_categories.json") # sample json response 
 end
+
 

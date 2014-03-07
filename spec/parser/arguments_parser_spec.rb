@@ -9,12 +9,9 @@ describe Cc::Api::Parser::ArgumentsParser do
 
       context "products" do
         let(:expected_result) { {request: {url: url + "products/" + rand + "?skus[]=" + rand } } }
+        let(:args) { ["lattice-products", "--id", rand, "--skus", rand] }
 
-        it "returns json object when arguments are valid" do
-          args = ["lattice-products", "--id", rand, "--skus", rand]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
 
         # future version
         #it "returns json object with user's desired json response keys" do
@@ -34,22 +31,16 @@ describe Cc::Api::Parser::ArgumentsParser do
 
       context "stores" do
         let(:expected_result) { {request: { url: url + "stores" } } }
+        let(:args) { ["lattice-stores"] }
 
-        it "returns json object when arguments are valid" do
-          args = ["lattice-stores"]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
 
       context "offers" do
         let(:expected_result) { {request: { url: url + "offers", :body=>{"search"=>{"skus"=>{"123"=>["123"]}}}, method: "POST"} } }
+        let(:args) { ["lattice-offers", "--id", rand, "--skus", rand] }
 
-        it "returns json object when arguments are valid" do
-          args = ["lattice-offers", "--id", rand, "--skus", rand]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
     end
 
@@ -57,45 +48,33 @@ describe Cc::Api::Parser::ArgumentsParser do
       context "products" do
         let(:url) { "https://catalog.crystalcommerce.com/api/v1/products" }
         let(:expected_result) { { request: { url: url } } }
+        let(:args) { ["catalog-products"] }
 
-        it "returns json object when arguments are valid" do
-          args = ["catalog-products"]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
 
       context "product types" do
         let(:url) { "https://catalog.crystalcommerce.com/api/v1/product_types" }
         let(:expected_result) { { request: { url: url } } }
+        let(:args) { ["catalog-product_types"] }
 
-        it "returns json object when arguments are valid" do
-          args = ["catalog-product_types"]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
 
       context "product types" do
         let(:url) { "https://catalog.crystalcommerce.com/api/v1/stores" }
         let(:expected_result) { { request: { url: url } } }
+        let(:args) { ["catalog-stores"] }
 
-        it "returns json object when arguments are valid" do
-          args = ["catalog-stores"]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
 
       context "categories" do
         let(:url) { "https://catalog.crystalcommerce.com/api/v1/categories" }
         let(:expected_result) { { request: { url: url } } }
+        let(:args) { ["catalog-categories"] }
 
-        it "returns json object when arguments are valid" do
-          args = ["catalog-categories"]
-          res = Cc::Api::Parser::ArgumentsParser.parse args
-          res.should eq expected_result
-        end
+        it_behaves_like "arguments parser returning expected result"
       end
     end
   end

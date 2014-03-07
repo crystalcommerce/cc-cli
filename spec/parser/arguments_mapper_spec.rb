@@ -10,11 +10,7 @@ describe Cc::Api::Parser::ArgumentsMapper do
         let(:args2) { ["lattice-products", "--skus", rand, "--id", rand] }
         let(:wrong_args) { ["this", "is", "a", "wrong", "argument"] }
 
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {id: rand, skus: [rand]}
-          res.should eq expected_res
-        end
+        it_behaves_like "arguments mapper returning json with id and skus"
 
         it "matches the args (--sku before --id) and creates a json object that maps the args" do
           res = Cc::Api::Parser::ArgumentsMapper.map args2
@@ -29,14 +25,9 @@ describe Cc::Api::Parser::ArgumentsMapper do
       end
 
       context "stores" do
-        let(:rand) { "123" }
         let(:args) { ["lattice-stores"] }
 
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {}
-          res.should eq expected_res
-        end
+        it_behaves_like "arguments mapper returning blank json"
       end
 
       context "offers" do
@@ -54,38 +45,26 @@ describe Cc::Api::Parser::ArgumentsMapper do
     context "catalog" do
       context "products" do
         let(:args) { ["catalog-products"] }
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {}
-          res.should eq expected_res
-        end
+
+        it_behaves_like "arguments mapper returning blank json"
       end
 
       context "product types" do
         let(:args) { ["catalog-product_types"] }
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {}
-          res.should eq expected_res
-        end
+
+        it_behaves_like "arguments mapper returning blank json"
       end
 
       context "stores" do
         let(:args) { ["catalog-stores"] }
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {}
-          res.should eq expected_res
-        end
+
+        it_behaves_like "arguments mapper returning blank json"
       end
 
       context "categories" do
         let(:args) { ["catalog-categories"] }
-        it "matches the args and creates a json object that maps the args" do
-          res = Cc::Api::Parser::ArgumentsMapper.map args
-          expected_res = {}
-          res.should eq expected_res
-        end
+
+        it_behaves_like "arguments mapper returning blank json"
       end
     end
   end

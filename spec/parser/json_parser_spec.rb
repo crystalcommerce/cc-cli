@@ -1,10 +1,6 @@
 require 'cc/api/parser/json_parser'
 require 'json'
 
-LATTICE_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/lattice_products.json") # sample json response 
-LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
-
-#TODO: Dry this up
 describe Cc::Api::Parser::JsonParser do
   describe "parse" do
     context "lattice" do

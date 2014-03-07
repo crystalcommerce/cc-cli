@@ -11,43 +11,43 @@ module Cc
     module Explorer
       class CLI < Thor
 
-        desc "latticeproducts --id ID --sku SKU", "returns <storename | qty | inventory_qty | sell_price | buy_price> for a particular sku of a product"
+        desc "latticeproducts --id ID --skus <array of skus separated by ','>", "returns < storename | qty | inventory_qty | sell_price | buy_price >"
         def latticeproducts *args
           args.unshift "lattice-products"
           self.perform args
         end
 
-        desc "latticestores", "returns <name | postal_code | url>"
+        desc "latticestores", "returns < name | postal_code | url >"
         def latticestores *args
           args.unshift "lattice-stores"
           self.perform args
         end
 
-        desc "latticestores", "returns <*>"
+        desc "latticeoffers --id ID --skus <array of skus separated by ','>", "returns < name | postal_code | url >"
         def latticeoffers *args
           args.unshift "lattice-offers"
           self.perform args
         end
 
-        desc "catalogproducts", "returns <*>"
+        desc "catalogproducts", "returns < name | seoname | category_name | weight | description >"
         def catalogproducts *args
           args.unshift "catalog-products"
           self.perform args
         end
 
-        desc "catalogproducttypes", "returns <*>"
+        desc "catalogproducttypes", "returns < name | default_weight | amazon_search_index | weight >"
         def catalogproducttypes *args
           args.unshift "catalog-product_types"
           self.perform args
         end
 
-        desc "catalogstores", "returns <*>"
+        desc "catalogstores", "returns < name | address1 | address2 | postal_code | city | state | country >"
         def catalogstores *args
           args.unshift "catalog-stores"
           self.perform args
         end
 
-        desc "catalogcategories", "returns <*>"
+        desc "catalogcategories", "returns < name | seoname | description | available_on | set_code | product_type_id >"
         def catalogcategories *args
           args.unshift "catalog-categories"
           self.perform args

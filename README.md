@@ -22,6 +22,13 @@ To view help:
 
     $ cc
 
+First config/cc_api_keys.yml must be generated. In order to generate:
+
+    $ cc init --ssologin <ssologin> --key <key>
+
+The license key pair `<ssologin>` and `<key>` are basically just basic auth username and password respectively.
+To obtain a license key, contact: contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
+
 These are the available commands:
 
     cc catalogcategories                                                # returns < name | seoname | description | available_on | set_code | product_type_id >
@@ -35,3 +42,7 @@ These are the available commands:
 ## TODO
 
 In the future this gem will use CrystalCommerce's API Aggregator as soon as it goes live. But for now it accesses directly CC's API endpoints.
+
+## ISSUES
+
+It seems like https://api.crystalcommerce.com/v1/lattice is problematic right now so `cc latticeoffers`, `cc latticeproducts` and `cc latticestores` will not work as of the moment.

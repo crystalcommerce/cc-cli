@@ -5,11 +5,12 @@ module Cc
       end
 
       class ConfigReader
+
         def self.license
           begin
             keys = YAML.load_file(self.path)['license']
             self.raise_license_key_exception if keys['ssologin'].nil? || keys['key'].nil?
-            keys
+            {:username => keys['ssologin'], :password => keys['key']}  
           rescue 
             self.raise_license_key_exception
           end
@@ -22,7 +23,7 @@ module Cc
         end
 
         def self.path
-          File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'cc_api_keys.yml')
+          File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'config', 'cc_api_keys.yml')
         end    
       end
     end

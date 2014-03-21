@@ -2,6 +2,10 @@ require 'spec_helper'
 
 #TODO Dry this up
 describe Cc::Api::Explorer::CLI do
+  before(:each) do
+    allow(YAML).to receive(:load_file).and_return({"license" => {"ssologin" => "abc", "key" => "123"}})
+  end
+
   let(:cc) { cc = Cc::Api::Explorer::CLI.new }
 
   context "generate" do
@@ -97,7 +101,7 @@ describe Cc::Api::Explorer::CLI do
     context "products" do
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/products").
+          stub_request(:get, "https://api.crystalcommerce.com/v1/catalog/products").
             to_return(:status => 200, :body => CATALOG_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -110,7 +114,7 @@ describe Cc::Api::Explorer::CLI do
     context "product_types" do
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/product_types").
+          stub_request(:get, "https://api.crystalcommerce.com/v1/catalog/product_types").
             to_return(:status => 200, :body => CATALOG_PRODUCT_TYPES_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -123,7 +127,7 @@ describe Cc::Api::Explorer::CLI do
     context "stores" do
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/stores").
+          stub_request(:get, "https://api.crystalcommerce.com/v1/catalog/stores").
             to_return(:status => 200, :body => CATALOG_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -136,7 +140,7 @@ describe Cc::Api::Explorer::CLI do
     context "categories" do
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://catalog.crystalcommerce.com/api/v1/categories").
+          stub_request(:get, "https://api.crystalcommerce.com/v1/catalog/categories").
             to_return(:status => 200, :body => CATALOG_CATEGORIES_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 

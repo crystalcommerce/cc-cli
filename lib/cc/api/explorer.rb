@@ -68,9 +68,6 @@ module Cc
             f.puts "  key: #{args[3]}"
             f.close
           end
-
-          yaml = YAML.load_file(File.join(File.dirname(__FILE__), '..', '..', '..', 'config', 'cc_api_keys.yml'))['license']
-          puts yaml.inspect
         end
 
         protected

@@ -2,6 +2,10 @@ require 'spec_helper'
 
 #TODO: Dry this up
 describe Cc::Api::Parser::ArgumentsParser do
+  before(:each) do
+    allow(Cc::Api::Util::ConfigReader).to receive(:pair).and_return "abc:123"
+  end
+
   describe "parse" do
     context "lattice" do
       let(:url) { "http://lattice.crystalcommerce.com/api/v1/" }
@@ -46,7 +50,7 @@ describe Cc::Api::Parser::ArgumentsParser do
 
     context "catalog" do
       context "products" do
-        let(:url) { "https://catalog.crystalcommerce.com/api/v1/products" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/products" }
         let(:expected_result) { { request: { url: url } } }
         let(:args) { ["catalog-products"] }
 
@@ -54,7 +58,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       end
 
       context "product types" do
-        let(:url) { "https://catalog.crystalcommerce.com/api/v1/product_types" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/product_types" }
         let(:expected_result) { { request: { url: url } } }
         let(:args) { ["catalog-product_types"] }
 
@@ -62,7 +66,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       end
 
       context "product types" do
-        let(:url) { "https://catalog.crystalcommerce.com/api/v1/stores" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/stores" }
         let(:expected_result) { { request: { url: url } } }
         let(:args) { ["catalog-stores"] }
 
@@ -70,7 +74,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       end
 
       context "categories" do
-        let(:url) { "https://catalog.crystalcommerce.com/api/v1/categories" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/categories" }
         let(:expected_result) { { request: { url: url } } }
         let(:args) { ["catalog-categories"] }
 

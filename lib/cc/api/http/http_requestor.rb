@@ -13,7 +13,7 @@ module Cc
                 :headers => { 'Content-Type' => 'application/json' }
             )
           else
-            response_body = HTTParty.get(params[:request][:url])
+            response_body = HTTParty.get(params[:request][:url], :basic_auth => Cc::Api::Util::ConfigReader.license)
           end
           end_time = Time.now
           return {body: response_body, response_time: end_time - start_time}

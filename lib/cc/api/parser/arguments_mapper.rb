@@ -1,3 +1,5 @@
+require 'cc/api/util/config_reader'
+
 module Cc
   module Api
     module Parser
@@ -26,10 +28,10 @@ module Cc
           "lattice-products" => {:url => "http://lattice.crystalcommerce.com/api/v1/products"},
           "lattice-stores" => {:url => "http://lattice.crystalcommerce.com/api/v1/stores"},
           "lattice-offers" => {:url => "http://lattice.crystalcommerce.com/api/v1/offers", :method => "POST"},
-          "catalog-products" => {:url => "https://catalog.crystalcommerce.com/api/v1/products"},
-          "catalog-product_types" => {:url => "https://catalog.crystalcommerce.com/api/v1/product_types"},
-          "catalog-stores" => {:url => "https://catalog.crystalcommerce.com/api/v1/stores"},
-          "catalog-categories" => {:url => "https://catalog.crystalcommerce.com/api/v1/categories"}
+          "catalog-products" => {:url => "https://api.crystalcommerce.com/v1/catalog/products"},
+          "catalog-product_types" => {:url => "https://api.crystalcommerce.com/v1/catalog/product_types"},
+          "catalog-stores" => {:url => "https://api.crystalcommerce.com/v1/catalog/stores"},
+          "catalog-categories" => {:url => "https://api.crystalcommerce.com/v1/catalog/categories"}
         }
 
         def self.map args

@@ -7,7 +7,7 @@ describe Cc::Api::Util::ConfigReader do
 
   it "should return license key hash based from the cc_api_keys.yml" do
     allow(YAML).to receive(:load_file).and_return({"license" => {"ssologin" => "abc", "key" => "123"}})
-    Cc::Api::Util::ConfigReader.license.should eq({"ssologin" => "abc", "key" => "123"})
+    Cc::Api::Util::ConfigReader.license.should eq({"username" => "abc", "password" => "123"})
   end
 
   it "should raise error if cc_api_keys.yml file is not found" do

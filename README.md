@@ -22,12 +22,12 @@ To view help:
 
     $ cc
 
-First config/cc_api_keys.yml must be generated. In order to generate:
-
-    $ cc init --ssologin <ssologin> --key <key>
-
 The license key pair `<ssologin>` and `<key>` are basically just basic auth username and password respectively.
 To obtain a license key, contact: contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
+
+Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file
+
+    export CC_API_KEY=<ssologin>:<key>
 
 These are the available commands:
 

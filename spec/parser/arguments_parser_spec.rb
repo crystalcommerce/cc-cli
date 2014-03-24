@@ -8,7 +8,7 @@ describe Cc::Api::Parser::ArgumentsParser do
 
   describe "parse" do
     context "lattice" do
-      let(:url) { "http://api.crystalcommerce.com/v1/lattice/" }
+      let(:url) { "https://api.crystalcommerce.com/v1/lattice/" }
       let(:rand) { "123" }
 
       context "products" do

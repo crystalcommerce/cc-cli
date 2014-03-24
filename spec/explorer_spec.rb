@@ -23,10 +23,10 @@ describe Cc::Api::Explorer::CLI do
 
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}").
             to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -49,14 +49,14 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns blank if blank variants was returned" do
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => '{"product":{"product_id":201750,"variants":[]}}', :headers => {"Content-Type" => "application/json"})
 
             cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
         end
 
         it "returns blank if nil json was returned" do
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
             cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
@@ -67,7 +67,7 @@ describe Cc::Api::Explorer::CLI do
     context "stores" do
       context "something is returned" do
         it "returns something" do
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/stores").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
           cc.latticestores
@@ -76,7 +76,7 @@ describe Cc::Api::Explorer::CLI do
 
       context "something is not returned" do
         it "returns nothing" do
-          stub_request(:get, "http://abc:123@api.crystalcommerce.com/v1/lattice/stores").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
           cc.latticestores
@@ -87,7 +87,7 @@ describe Cc::Api::Explorer::CLI do
     context "offers" do
       context "something is returned" do
         it "returns something" do
-          stub_request(:post, "http://api.crystalcommerce.com/v1/lattice/offers").
+          stub_request(:post, "https://api.crystalcommerce.com/v1/lattice/offers").
             with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
             to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 

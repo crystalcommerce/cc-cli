@@ -70,6 +70,10 @@ module Cc
             tabler = Cc::Api::Presentor::Tabler.new
             tabler.present result
             #puts "Command not found. Please run 'cc' to print all the available commands"
+          rescue Cc::Api::Util::LicenseKeysException
+            puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'
+          rescue Cc::Api::Http::ServerProblemException
+            puts "There's a problem with the server. Server response not expected."
           rescue Cc::Api::Parser::CLIArgumentsException
             puts "Error. Please run 'cc' for a list of available commands and their corresponding usage"
           end

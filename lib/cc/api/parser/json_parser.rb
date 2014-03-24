@@ -64,7 +64,7 @@ module Cc
         def self.reduce_for_lattice_offers json, cols
           result = []
 
-          unless json.nil?
+          unless json.nil? || json.empty?
             offers = json.first.last
             offers.each do |offer|
               result << {
@@ -83,7 +83,7 @@ module Cc
         def self.reduce_for_catalog_products json, cols
           result = []
 
-          unless json.nil?
+          unless json.nil? || json.empty?
             json["products"].each do |p|
               result << {
                 name: p["name"],

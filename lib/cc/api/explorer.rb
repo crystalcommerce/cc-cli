@@ -65,8 +65,6 @@ module Cc
 
             result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
 
-            puts "GET" 
-            puts "#{param[:request]}"
             puts "response time: #{response[:response_time]}"
 
             tabler = Cc::Api::Presentor::Tabler.new

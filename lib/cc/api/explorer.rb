@@ -55,21 +55,6 @@ module Cc
           self.perform args
         end
 
-        #initialize to create config/yml
-        desc "init [--name <ssologin>][--key <license key>]", "generates config/cc_api_keys.yml"
-        def init *args
-          begin 
-            Dir.mkdir 'config'   
-          rescue Errno::EEXIST
-          ensure
-            f = File.new "config/cc_api_keys.yml", "w"
-            f.puts "license:"
-            f.puts "  ssologin: #{args[1]}"
-            f.puts "  key: #{args[3]}"
-            f.close
-          end
-        end
-
         protected
 
         def perform args

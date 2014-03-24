@@ -3,17 +3,10 @@ require 'spec_helper'
 #TODO Dry this up
 describe Cc::Api::Explorer::CLI do
   before(:each) do
-    allow(YAML).to receive(:load_file).and_return({"license" => {"ssologin" => "abc", "key" => "123"}})
+    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return "abc:123"
   end
 
   let(:cc) { cc = Cc::Api::Explorer::CLI.new }
-
-  context "generate" do
-    it "creates config directory with keys.yml in it" do
-      expect(Dir).to receive(:mkdir).with('config').once
-      cc.init
-    end
-  end
 
   context "lattice" do
     let(:skus) { ["123abc", "456def"] }

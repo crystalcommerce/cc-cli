@@ -8,9 +8,7 @@ module Cc
 
         def self.license
           begin
-            keys = YAML.load_file(self.path)['license']
-            self.raise_license_key_exception if keys['ssologin'].nil? || keys['key'].nil?
-            {:username => keys['ssologin'], :password => keys['key']}  
+            self.parse_keys self.get_keys
           rescue 
             self.raise_license_key_exception
           end
@@ -18,8 +16,18 @@ module Cc
 
         protected
 
+        def self.get_keys
+          ENV['CC_API_KEY']
+        end
+
+        def self.parse_keys key
+          raise self.raise_license_key_exception unless key.match /^[a-z]*:[0-9a-zA-Z]*$/
+          pair = key.split(':')
+          {:username => pair[0], :password => pair[1]}
+        end
+
         def self.raise_license_key_exception
-          raise LicenseKeysException, 'License keys not set properly. Please run "cc init to generate config/cc_api_keys.yml" to place your keys'
+          raise LicenseKeysException, 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"' 
         end
 
         def self.path

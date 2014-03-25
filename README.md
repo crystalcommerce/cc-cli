@@ -38,11 +38,4 @@ These are the available commands:
     cc latticeoffers --id ID --skus <array of skus separated by ','>    # returns < name | postal_code | url >
     cc latticeproducts --id ID --skus <array of skus separated by ','>  # returns < storename | qty | inventory_qty | sell_price | buy_price > 
     cc latticestores                                                    # returns < name | postal_code | url >
-
-## TODO
-
-In the future this gem will use CrystalCommerce's API Aggregator as soon as it goes live. But for now it accesses directly CC's API endpoints.
-
-## ISSUES
-
-It seems like https://api.crystalcommerce.com/v1/lattice is problematic right now so `cc latticeoffers`, `cc latticeproducts` and `cc latticestores` will not work as of the moment.
+    cc storeproducts --token <access token> --store <store name>        # returns < name | seoname | description >

@@ -121,5 +121,18 @@ describe Cc::Api::Parser::JsonParser do
       end
 
     end
+
+    context "store" do
+      context "products" do
+        it "returns json object when arguments are valid" do
+          json = JSON.parse(STORES_PRODUCTS_RESPONSE)
+          result = Cc::Api::Parser::JsonParser.reduce "store-products", json, []
+
+          result.first[:name].should_not eq nil
+          result.first[:seoname].should_not eq nil
+          result.first[:description].should_not eq nil
+        end
+      end
+    end
   end
 end

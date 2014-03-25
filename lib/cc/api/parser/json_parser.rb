@@ -18,6 +18,8 @@ module Cc
             self.reduce_for_catalog_stores json, cols  
           when "catalog-categories"
             self.reduce_for_catalog_categories json, cols  
+          when "store-products"
+            self.reduce_for_store_products json, cols  
           else
             nil
           end
@@ -150,6 +152,22 @@ module Cc
                 available_on: store["available_on"] || "",
                 set_code: store["set_code"],
                 product_type_id: store["product_type_id"] || ""
+              } 
+            end
+          end
+
+          result
+        end
+
+        def self.reduce_for_store_products json, cols
+          result = []
+
+          unless json.nil? || json["paginated_collection"].empty? || json["paginated_collection"]["entries"].empty?
+            json["paginated_collection"]["entries"].each do |store|
+              result << {
+                name: store["product"]["name"],
+                seoname: store["product"]["seoname"],
+                description: store["product"]["description"]
               } 
             end
           end

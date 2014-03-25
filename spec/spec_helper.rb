@@ -43,6 +43,7 @@ RSpec.configure do |config|
   CATALOG_PRODUCT_TYPES_RESPONSE = IO.read("spec/dummy_data/catalog_product_types.json") # sample json response 
   CATALOG_STORES_RESPONSE = IO.read("spec/dummy_data/catalog_stores.json") # sample json response 
   CATALOG_CATEGORIES_RESPONSE = IO.read("spec/dummy_data/catalog_categories.json") # sample json response 
+  STORES_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/store_products.json") # sample json response 
 end
 
 

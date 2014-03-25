@@ -21,7 +21,8 @@ module Cc
           "catalog-products" => [/^$/],
           "catalog-product_types" => [/^$/],
           "catalog-stores" => [/^$/],
-          "catalog-categories" => [/^$/]
+          "catalog-categories" => [/^$/],
+          "store-products" => [/^--token\s[0-9a-zA-Z]*\s--store\s[a-z]*$/]
         }
 
         ACTIONS = {
@@ -31,7 +32,8 @@ module Cc
           "catalog-products" => {:url => "https://api.crystalcommerce.com/v1/catalog/products"},
           "catalog-product_types" => {:url => "https://api.crystalcommerce.com/v1/catalog/product_types"},
           "catalog-stores" => {:url => "https://api.crystalcommerce.com/v1/catalog/stores"},
-          "catalog-categories" => {:url => "https://api.crystalcommerce.com/v1/catalog/categories"}
+          "catalog-categories" => {:url => "https://api.crystalcommerce.com/v1/catalog/categories"},
+          "store-products" => {:url => "https://*-api.crystalcommerce.com/v1/products"}
         }
 
         def self.map args
@@ -96,10 +98,17 @@ module Cc
             else
               return nil
             end
+          when "store-products"
+            match = self.match args 
+            case match
+            when 0
+              return {:token => args[2], :store => args[4]} 
+            else
+              return nil
+            end
           else
             return nil
           end
-
         end
 
         protected

@@ -80,7 +80,7 @@ describe Cc::Api::Explorer::CLI do
     context "offers" do
       context "something is returned" do
         it "returns something" do
-          stub_request(:post, "https://api.crystalcommerce.com/v1/lattice/offers").
+          stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/lattice/offers").
             with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
             to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
@@ -140,6 +140,21 @@ describe Cc::Api::Explorer::CLI do
 
         it "returns something if arguments are correct" do
           cc.catalogcategories
+        end
+      end
+    end
+  end
+
+  context "store" do
+    context "products" do
+      context "something is returned" do
+        before(:each) do
+          stub_request(:get, "https://abc:123@arux-api.crystalcommerce.com/v1/products").with(:headers => {'Authorization' => 'OAuth 123'}).
+            to_return(:status => 200, :body => CATALOG_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+        end
+
+        it "returns something if arguments are correct" do
+          cc.storeproducts
         end
       end
     end

@@ -55,6 +55,12 @@ module Cc
           self.perform args
         end
 
+        desc "storeproducts --token <access token> --store <store name>", "returns < name | seoname | description >"
+        def storeproducts *args
+          args.unshift "store-products"
+          self.perform args
+        end
+
         protected
 
         def perform args

@@ -3,9 +3,9 @@ require 'spec_helper'
 #TODO dry this up
 describe Cc::Api::Parser::ArgumentsMapper do
   describe "map" do
+    let(:rand) { "123" }
     context "lattice" do
       context "products" do
-        let(:rand) { "123" }
         let(:args) { ["lattice-products", "--id", rand, "--skus", rand] }
         let(:args2) { ["lattice-products", "--skus", rand, "--id", rand] }
         let(:wrong_args) { ["this", "is", "a", "wrong", "argument"] }
@@ -65,6 +65,19 @@ describe Cc::Api::Parser::ArgumentsMapper do
         let(:args) { ["catalog-categories"] }
 
         it_behaves_like "arguments mapper returning blank json"
+      end
+    end
+
+    context "store" do
+      context "products" do
+        let(:store) { "arux" }
+        let(:args) { ["store-products", "--token", "123", "--store", store] }
+        
+        it "matches the args and creates a json object that maps the args" do
+          res = Cc::Api::Parser::ArgumentsMapper.map args
+          expected_res = {token: rand, store: store}
+          res.should eq expected_res
+        end
       end
     end
   end

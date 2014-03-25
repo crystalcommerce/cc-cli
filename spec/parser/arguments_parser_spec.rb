@@ -81,5 +81,16 @@ describe Cc::Api::Parser::ArgumentsParser do
         it_behaves_like "arguments parser returning expected result"
       end
     end
+
+    context "store" do
+      context "products" do
+        let(:url) { "https://arux-api.crystalcommerce.com/v1/products" }
+        let(:token) { "123" }
+        let(:expected_result) { { request: { url: url, token: token } } }
+        let(:args) { ["store-products", "--token", token, "--store", "arux"] }
+
+        it_behaves_like "arguments parser returning expected result"
+      end
+    end
   end
 end

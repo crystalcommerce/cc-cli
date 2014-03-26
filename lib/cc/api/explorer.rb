@@ -48,10 +48,15 @@ module Cc
         
         option :token
         option :store
-        desc "storeproducts --token <access token> --store <store name>", "returns < name | seoname | description >"
-        def storeproducts
-          args = ["store-products", "--token", options[:token], "--store", options[:store]]
-          self.perform args
+        desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
+        def storeproducts subcommand
+          case subcommand
+          when "products"
+            args = ["store-products", "--token", options[:token], "--store", options[:store]]
+            self.perform args
+          else
+            raise Cc::Api::Parser::CLIArgumentsException 
+          end
         end
 
         protected

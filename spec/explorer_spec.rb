@@ -222,7 +222,7 @@ describe Cc::Api::Explorer::CLI do
 
         it "returns something if arguments are correct" do
           printed = capture_stdout do
-            args = ["storeproducts", "--token", "123", "--store", "abc"]
+            args = ["store", "products", "--token", "123", "--store", "abc"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 

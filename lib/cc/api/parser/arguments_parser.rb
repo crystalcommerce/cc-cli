@@ -8,6 +8,8 @@ module Cc
       end
 
       class ArgumentsParser
+        ERRORS = {'cli_arguments_exception' => "Error. Please run 'cc' for a list of available commands and their corresponding usage"}
+
         def self.parse args
           unless Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first].nil?
             if res = Cc::Api::Parser::ArgumentsMapper.map(args)
@@ -18,6 +20,10 @@ module Cc
           else
             raise CLIArgumentsException
           end
+        end
+
+        def self.raise_cli_arguments_exception
+          raise Cc::Api::Parser::CLIArgumentsException, ERRORS['cli_arguments_exception']
         end
 
         protected

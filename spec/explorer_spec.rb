@@ -27,7 +27,7 @@ describe Cc::Api::Explorer::CLI do
         it "returns something if arguments are correct" do
 
           printed = capture_stdout do
-            args = ["latticeproducts", "--id", "123", "--skus", "123abc"]
+            args = ["lattice", "products", "--id", "123", "--skus", "123abc"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -37,7 +37,7 @@ describe Cc::Api::Explorer::CLI do
         it "returns something if arguments are correct for multiple skus" do
           
           printed = capture_stdout do
-            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            args = ["lattice", "products", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -90,7 +90,7 @@ describe Cc::Api::Explorer::CLI do
             to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do 
-            args = ["latticestores"]
+            args = ["lattice", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -104,7 +104,7 @@ describe Cc::Api::Explorer::CLI do
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do 
-            args = ["latticestores"]
+            args = ["lattice", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -122,7 +122,7 @@ describe Cc::Api::Explorer::CLI do
             to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
             printed = capture_stdout do
-              args = ["latticeoffers", "--id", "201750", "--skus", skus.join(',')]
+              args = ["lattice", "offers", "--id", "201750", "--skus", skus.join(',')]
               options = Cc::Api::Explorer::CLI.start(args)
             end
 

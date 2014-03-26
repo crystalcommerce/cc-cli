@@ -134,6 +134,7 @@ describe Cc::Api::Explorer::CLI do
   
   context "catalog" do
     context "products" do
+      let(:expected_print_substring) { "┃      Abyssal Specter           ┃      abyssal_specter           ┃      Eighth Edition            ┃      0.0                       ┃                                ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/products").
@@ -141,12 +142,19 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          cc.catalogproducts 
+          
+          printed = capture_stdout do
+            args = ["catalogproducts"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
     end
 
     context "product_types" do
+      let(:expected_print_substring) { "┃      Pathfinder                ┃      2.0                       ┃      Toys                      ┃                                ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/product_types").
@@ -154,13 +162,18 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          "hello"
-          cc.catalogproducttypes
+          printed = capture_stdout do
+            args = ["catalogproducttypes"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
     end
 
     context "stores" do
+      let(:expected_print_substring) { "┃      PlayCCG.com               ┃      731 North 94th St         ┃      Unit 4                    ┃      98103                     ┃      Seattle                   ┃      WA                        ┃      US                        ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/stores").
@@ -168,12 +181,18 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          cc.catalogstores
+          printed = capture_stdout do
+            args = ["catalogstores"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
     end
 
     context "categories" do
+      let(:expected_print_substring) { "┃      Eighth Edition            ┃      eighth_edition            ┃                                ┃                                ┃      8E                        ┃      208                       ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/categories").
@@ -181,7 +200,12 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          cc.catalogcategories
+          printed = capture_stdout do
+            args = ["catalogcategories"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
     end

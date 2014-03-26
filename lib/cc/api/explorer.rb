@@ -37,25 +37,25 @@ module Cc
         end
 
         desc "catalogproducts", "returns < name | seoname | category_name | weight | description >"
-        def catalogproducts *args
+        def catalogproducts
           args.unshift "catalog-products"
           self.perform args
         end
 
         desc "catalogproducttypes", "returns < name | default_weight | amazon_search_index | weight >"
-        def catalogproducttypes *args
+        def catalogproducttypes
           args.unshift "catalog-product_types"
           self.perform args
         end
 
         desc "catalogstores", "returns < name | address1 | address2 | postal_code | city | state | country >"
-        def catalogstores *args
+        def catalogstores
           args.unshift "catalog-stores"
           self.perform args
         end
 
         desc "catalogcategories", "returns < name | seoname | description | available_on | set_code | product_type_id >"
-        def catalogcategories *args
+        def catalogcategories
           args.unshift "catalog-categories"
           self.perform args
         end

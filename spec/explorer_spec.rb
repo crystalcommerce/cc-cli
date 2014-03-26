@@ -149,12 +149,12 @@ describe Cc::Api::Explorer::CLI do
     context "products" do
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc:123@arux-api.crystalcommerce.com/v1/products").with(:headers => {'Authorization' => 'OAuth 123'}).
-            to_return(:status => 200, :body => CATALOG_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+          stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products").with(:headers => {'Authorization' => 'OAuth 123'}).
+            to_return(:status => 200, :body => STORE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
         it "returns something if arguments are correct" do
-          cc.storeproducts
+          cc.storeproducts "--token", "123", "--store", "abc"
         end
       end
     end

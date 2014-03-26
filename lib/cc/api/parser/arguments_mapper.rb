@@ -22,7 +22,7 @@ module Cc
           "catalog-product_types" => [/^$/],
           "catalog-stores" => [/^$/],
           "catalog-categories" => [/^$/],
-          "store-products" => [/^--token\s[0-9a-zA-Z]*\s--store\s[a-z]*$/]
+          "store-products" => [/^((--token)(\s[0-9a-zA-Z]+)(\s--store)(\s[a-z]+))*$/]
         }
 
         ACTIONS = {

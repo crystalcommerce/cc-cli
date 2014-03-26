@@ -20,11 +20,14 @@ module Cc
         def lattice subcommand
           case subcommand 
           when "products"
-            self.perform ["lattice-products", "--id", options[:id], "--skus", options[:skus]]
+            args = {:action => "lattice-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
+            self.perform args
           when "stores"
-            self.perform ["lattice-stores"]
+            args = {:action => "lattice-stores"}
+            self.perform args
           when "offers"
-            self.perform ["lattice-offers", "--id", options[:id], "--skus", options[:skus]]
+            args = {:action => "lattice-offers", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
+            self.perform args
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
@@ -34,13 +37,17 @@ module Cc
         def catalog subcommand
           case subcommand 
           when "products"
-            self.perform ["catalog-products"]
+            args = {:action => "catalog-products"}
+            self.perform args
           when "product_types"
-            self.perform ["catalog-product_types"]
+            args = {:action => "catalog-product_types"}
+            self.perform args
           when "stores"
-            self.perform ["catalog-stores"]
+            args = {:action => "catalog-stores"}
+            self.perform args
           when "categories"
-            self.perform ["catalog-categories"]
+            args = {:action => "catalog-categories"}
+            self.perform args
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
@@ -52,7 +59,7 @@ module Cc
         def storeproducts subcommand
           case subcommand
           when "products"
-            args = ["store-products", "--token", options[:token], "--store", options[:store]]
+            args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store] } }
             self.perform args
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
@@ -62,7 +69,7 @@ module Cc
         protected
 
         def perform args
-          action = args.first
+          action = args[:action]
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 

@@ -11,7 +11,7 @@ module Cc
         ERRORS = {'cli_arguments_exception' => "Error. Please run 'cc' for a list of available commands and their corresponding usage"}
 
         def self.parse args
-          unless Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first].nil?
+          unless Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]].nil?
             if res = Cc::Api::Parser::ArgumentsMapper.map(args)
               self.build_action_url args, res 
             else
@@ -33,30 +33,29 @@ module Cc
         protected
 
         def self.build_action_url args, res
-          case args.first
+          case args[:action]
           when "lattice-products"
             #TODO fix this
-            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:url] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') } }
+            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') } }
           when "lattice-stores"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "lattice-offers"
             { :request => { 
-                url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:url],
+                url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url],
                 body: {"search" => {"skus" => {"#{res[:id]}" => res[:skus].collect{|x| x.to_s }}}},
-                method: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:method]
+                method: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:method]
               } 
             }
-            #{ :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
           when "catalog-products"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "catalog-product_types"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "catalog-stores"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "catalog-categories"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first]  }
+            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "store-products"
-            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args.first][:url].sub('*', res[:store]), token: res[:token] } }
+            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url].sub('*', res[:store]), token: res[:token] } }
           else
             nil
           end

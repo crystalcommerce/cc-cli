@@ -48,7 +48,7 @@ describe Cc::Api::Explorer::CLI do
       context "something is not returned" do
         it "returns an exception if arguments are not correct" do
           printed = capture_stdout do
-            args = ["latticeproducts", "wrong", "arguments"]
+            args = ["lattice", "products", "wrong", "arguments"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -60,7 +60,7 @@ describe Cc::Api::Explorer::CLI do
             to_return(:status => 200, :body => '{"product":{"product_id":201750,"variants":[]}}', :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do
-            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            args = ["lattice", "products", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 

@@ -13,36 +13,21 @@ describe Cc::Api::Parser::ArgumentsParser do
 
       context "products" do
         let(:expected_result) { {request: {url: url + "products/" + rand + "?skus[]=" + rand } } }
-        let(:args) { ["lattice-products", "--id", rand, "--skus", rand] }
+        let(:args) { { :action => "lattice-products", :params => { :id => rand, :skus => [ rand ] } } }
 
         it_behaves_like "arguments parser returning expected result"
-
-        # future version
-        #it "returns json object with user's desired json response keys" do
-        #  args = ["lattice-products", "--id", rand, "--sku", rand, "--cols", "store_name", "qty", "sell_price", "buy_price"]
-        #  res = Cc::Api::Parser::ArgumentsParser.parse args
-        #  result = { :request => expected_url, :json_response_keys => ["store_name", "qty", "sell_price", "buy_price"] }
-        #  res.should eq result
-        #end
-
-        it "returns exception when arguments are invalid" do
-          args = ["wrong arguments"]
-          expect {
-            res = Cc::Api::Parser::ArgumentsParser.parse args
-          }.to raise_error Cc::Api::Parser::CLIArgumentsException
-        end
       end
 
       context "stores" do
         let(:expected_result) { {request: { url: url + "stores" } } }
-        let(:args) { ["lattice-stores"] }
+        let(:args) { {:action => "lattice-stores"} }
 
         it_behaves_like "arguments parser returning expected result"
       end
 
       context "offers" do
         let(:expected_result) { {request: { url: url + "offers", :body=>{"search"=>{"skus"=>{"123"=>["123"]}}}, method: "POST"} } }
-        let(:args) { ["lattice-offers", "--id", rand, "--skus", rand] }
+        let(:args) { {:action => "lattice-offers", :params => { :id => rand, :skus => [rand] } } }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -52,7 +37,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       context "products" do
         let(:url) { "https://api.crystalcommerce.com/v1/catalog/products" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { ["catalog-products"] }
+        let(:args) { {:action => "catalog-products"} }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -60,7 +45,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       context "product types" do
         let(:url) { "https://api.crystalcommerce.com/v1/catalog/product_types" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { ["catalog-product_types"] }
+        let(:args) { { :action => "catalog-product_types" } }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -68,7 +53,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       context "product types" do
         let(:url) { "https://api.crystalcommerce.com/v1/catalog/stores" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { ["catalog-stores"] }
+        let(:args) { { :action => "catalog-stores" } }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -76,7 +61,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       context "categories" do
         let(:url) { "https://api.crystalcommerce.com/v1/catalog/categories" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { ["catalog-categories"] }
+        let(:args) { { :action => "catalog-categories" } }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -87,7 +72,7 @@ describe Cc::Api::Parser::ArgumentsParser do
         let(:url) { "https://arux-api.crystalcommerce.com/v1/products" }
         let(:token) { "123" }
         let(:expected_result) { { request: { url: url, token: token } } }
-        let(:args) { ["store-products", "--token", token, "--store", "arux"] }
+        let(:args) { { :action => "store-products", :params => { :token => token, :store => "arux" } } }
 
         it_behaves_like "arguments parser returning expected result"
       end

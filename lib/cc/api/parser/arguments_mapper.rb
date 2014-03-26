@@ -37,78 +37,8 @@ module Cc
         }
 
         def self.map args
-          case args[0]
-          when "lattice-products"
-            match = self.match args
-            case match
-            when 0
-              return {:id => args[2], :skus => args[4].to_s.split(',')} 
-            when 1
-              return {:id => args[4], :skus => args[2].to_s.split(',')} 
-            else 
-              return nil
-            end
-          when "lattice-stores"
-            match = self.match args 
-            case match
-            when 0
-              return {}
-            else
-              return nil
-            end
-          when "lattice-offers"
-            match = self.match args
-            case match
-            when 0
-              return {:id => args[2], :skus => args[4].to_s.split(',')} 
-            when 1
-              return {:id => args[4], :skus => args[2].to_s.split(',')} 
-            else 
-              return nil
-            end
-          when "catalog-products"
-            match = self.match args 
-            case match
-            when 0
-              return {}
-            else
-              return nil
-            end
-          when "catalog-product_types"
-            match = self.match args 
-            case match
-            when 0
-              return {}
-            else
-              return nil
-            end
-          when "catalog-stores"
-            match = self.match args 
-            case match
-            when 0
-              return {}
-            else
-              return nil
-            end
-          when "catalog-categories"
-            match = self.match args 
-            case match
-            when 0
-              return {}
-            else
-              return nil
-            end
-          when "store-products"
-            match = self.match args 
-            case match
-            when 0
-              return {:token => args[2], :store => args[4]} 
-            else
-              return nil
-            end
-          else
-            return nil
-          end
+          return args[:params] || {}
+
         end
 
         protected

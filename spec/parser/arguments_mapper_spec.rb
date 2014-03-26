@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-#TODO dry this up
 describe Cc::Api::Parser::ArgumentsMapper do
   describe "map" do
     let(:rand) { "123" }
@@ -10,11 +9,6 @@ describe Cc::Api::Parser::ArgumentsMapper do
         let(:wrong_args) { {:action => "this", :is => "a", :wrong => "argument" } }
 
         it_behaves_like "arguments mapper returning json with id and skus"
-
-        #it "doesn't match" do
-        #  res = Cc::Api::Parser::ArgumentsMapper.map wrong_args
-        #  res.should eq nil
-        #end
       end
 
       context "stores" do

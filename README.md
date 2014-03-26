@@ -31,11 +31,11 @@ Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file
 
 These are the available commands:
 
-    cc catalogcategories                                                # returns < name | seoname | description | available_on | set_code | product_type_id >
-    cc catalogproducts                                                  # returns < name | seoname | category_name | weight | description >
-    cc catalogproducttypes                                              # returns < name | default_weight | amazon_search_index | weight >
-    cc catalogstores                                                    # returns < name | address1 | address2 | postal_code | city | state | country >
-    cc latticeoffers --id ID --skus <array of skus separated by ','>    # returns < name | postal_code | url >
-    cc latticeproducts --id ID --skus <array of skus separated by ','>  # returns < storename | qty | inventory_qty | sell_price | buy_price > 
-    cc latticestores                                                    # returns < name | postal_code | url >
-    cc storeproducts --token <access token> --store <store name>        # returns < name | seoname | description >
+    $ cc catalog categories                                                # returns < name | seoname | description | available_on | set_code | product_type_id >
+    $ cc catalog products                                                  # returns < name | seoname | category_name | weight | description >
+    $ cc catalog product_types                                             # returns < name | default_weight | amazon_search_index | weight >
+    $ cc catalog stores                                                    # returns < name | address1 | address2 | postal_code | city | state | country >
+    $ cc lattice offers --id ID --skus <array of skus separated by ','>    # returns < name | postal_code | url >
+    $ cc lattice products --id ID --skus <array of skus separated by ','>  # returns < storename | qty | inventory_qty | sell_price | buy_price > 
+    $ cc lattice stores                                                    # returns < name | postal_code | url >
+    $ cc store products --token <access token> --store <store name>        # returns < name | seoname | description >

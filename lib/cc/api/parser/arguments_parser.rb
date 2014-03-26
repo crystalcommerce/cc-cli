@@ -1,6 +1,5 @@
 require 'cc/api/parser/arguments_mapper'
 
-#TODO: Dry this up!
 module Cc
   module Api
     module Parser

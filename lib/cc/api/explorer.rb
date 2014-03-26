@@ -30,30 +30,22 @@ module Cc
           end
         end
 
-        desc "catalogproducts", "returns < name | seoname | category_name | weight | description >"
-        def catalogproducts
-          args.unshift "catalog-products"
-          self.perform args
+        desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
+        def catalog subcommand
+          case subcommand 
+          when "products"
+            self.perform ["catalog-products"]
+          when "product_types"
+            self.perform ["catalog-product_types"]
+          when "stores"
+            self.perform ["catalog-stores"]
+          when "categories"
+            self.perform ["catalog-categories"]
+          else
+            raise Cc::Api::Parser::CLIArgumentsException
+          end
         end
-
-        desc "catalogproducttypes", "returns < name | default_weight | amazon_search_index | weight >"
-        def catalogproducttypes
-          args.unshift "catalog-product_types"
-          self.perform args
-        end
-
-        desc "catalogstores", "returns < name | address1 | address2 | postal_code | city | state | country >"
-        def catalogstores
-          args.unshift "catalog-stores"
-          self.perform args
-        end
-
-        desc "catalogcategories", "returns < name | seoname | description | available_on | set_code | product_type_id >"
-        def catalogcategories
-          args.unshift "catalog-categories"
-          self.perform args
-        end
-
+        
         option :token
         option :store
         desc "storeproducts --token <access token> --store <store name>", "returns < name | seoname | description >"

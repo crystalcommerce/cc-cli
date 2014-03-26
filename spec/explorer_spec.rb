@@ -144,7 +144,7 @@ describe Cc::Api::Explorer::CLI do
         it "returns something if arguments are correct" do
           
           printed = capture_stdout do
-            args = ["catalogproducts"]
+            args = ["catalog", "products"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -163,7 +163,7 @@ describe Cc::Api::Explorer::CLI do
 
         it "returns something if arguments are correct" do
           printed = capture_stdout do
-            args = ["catalogproducttypes"]
+            args = ["catalog", "product_types"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -182,7 +182,7 @@ describe Cc::Api::Explorer::CLI do
 
         it "returns something if arguments are correct" do
           printed = capture_stdout do
-            args = ["catalogstores"]
+            args = ["catalog", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -201,7 +201,7 @@ describe Cc::Api::Explorer::CLI do
 
         it "returns something if arguments are correct" do
           printed = capture_stdout do
-            args = ["catalogcategories"]
+            args = ["catalog", "categories"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 

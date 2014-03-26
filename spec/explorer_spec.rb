@@ -83,12 +83,18 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "stores" do
+      let(:expected_print_substring) { "┃      Lettie Traffanstedt'      ┃                                ┃                                ┃" }
       context "something is returned" do
         it "returns something" do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-          cc.latticestores
+          printed = capture_stdout do 
+            args = ["latticestores"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
 
@@ -97,7 +103,12 @@ describe Cc::Api::Explorer::CLI do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
-          cc.latticestores
+          printed = capture_stdout do 
+            args = ["latticestores"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to_not match expected_print_substring
         end
       end
     end

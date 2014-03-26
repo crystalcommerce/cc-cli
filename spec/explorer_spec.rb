@@ -10,6 +10,7 @@ describe Cc::Api::Explorer::CLI do
 
   context "lattice" do
     let(:skus) { ["123abc", "456def"] }
+    let(:expected_print_substring) {"┃      matt-environment          ┃      2                         ┃      2                         ┃      0                         ┃      0                         ┃"}
     context "products" do
       let(:id) { "123" }
       let(:args) { "--id #{id} --sku #{skus}" }
@@ -24,35 +25,59 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          cc.latticeproducts "--id", "123", "--skus", "123abc"
+
+          printed = capture_stdout do
+            args = ["latticeproducts", "--id", "123", "--skus", "123abc"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
 
         it "returns something if arguments are correct for multiple skus" do
-          cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+          
+          printed = capture_stdout do
+            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
 
       context "something is not returned" do
         it "returns an exception if arguments are not correct" do
           printed = capture_stdout do
-            cc.latticeproducts "wrong", "arguments"
+            args = ["latticeproducts", "wrong", "arguments"]
+            options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          printed.should eq "Error. Please run 'cc' for a list of available commands and their corresponding usage\n"
+          printed.should eq "" #an error is printed here from Thor
         end
 
         it "returns blank if blank variants was returned" do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => '{"product":{"product_id":201750,"variants":[]}}', :headers => {"Content-Type" => "application/json"})
 
-            cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+          printed = capture_stdout do
+            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to_not match expected_print_substring
         end
 
         it "returns blank if nil json was returned" do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
-            cc.latticeproducts "--id", "123", "--skus", "#{skus.join(',')}"
+
+          printed = capture_stdout do
+            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to_not match expected_print_substring
         end
       end
     end

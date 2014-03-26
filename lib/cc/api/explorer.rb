@@ -12,10 +12,13 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
-
+        attr_reader :result
+      
+        option :id
+        option :skus
         desc "latticeproducts --id ID --skus <array of skus separated by ','>", "returns < storename | qty | inventory_qty | sell_price | buy_price >"
-        def latticeproducts *args
-          args.unshift "lattice-products"
+        def latticeproducts
+          args = ["lattice-products", "--id", options[:id], "--skus", options[:skus]]
           self.perform args
         end
 
@@ -69,12 +72,12 @@ module Cc
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 
 
-            result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
+            @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
 
             puts "response time: #{response[:response_time]}"
 
             tabler = Cc::Api::Presentor::Tabler.new
-            tabler.present result
+            tabler.present @result
             #puts "Command not found. Please run 'cc' to print all the available commands"
           rescue Cc::Api::Util::LicenseKeysException
             puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'

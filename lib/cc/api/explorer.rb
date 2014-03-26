@@ -26,7 +26,7 @@ module Cc
           when "offers"
             self.perform ["lattice-offers", "--id", options[:id], "--skus", options[:skus]]
           else
-            raise Cc::Api::Parser::CLIArgumentsException
+            Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
         end
 
@@ -42,7 +42,7 @@ module Cc
           when "categories"
             self.perform ["catalog-categories"]
           else
-            raise Cc::Api::Parser::CLIArgumentsException
+            Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
         end
         
@@ -55,7 +55,7 @@ module Cc
             args = ["store-products", "--token", options[:token], "--store", options[:store]]
             self.perform args
           else
-            raise Cc::Api::Parser::CLIArgumentsException 
+            Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
         end
 
@@ -77,8 +77,6 @@ module Cc
             puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'
           rescue Cc::Api::Http::ServerProblemException
             puts "There's a problem with the server. Server response not expected."
-          rescue Cc::Api::Parser::CLIArgumentsException
-            puts Cc::Api::Parser::ArgumentsParser::ERRORS['cli_arguments_exception']
           end
         end
       end

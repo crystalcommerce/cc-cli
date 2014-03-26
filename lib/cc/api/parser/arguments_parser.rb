@@ -15,15 +15,19 @@ module Cc
             if res = Cc::Api::Parser::ArgumentsMapper.map(args)
               self.build_action_url args, res 
             else
-              raise CLIArgumentsException
+              self.raise_cli_arguments_exception
             end
           else
-            raise CLIArgumentsException
+            self.raise_cli_arguments_exception
           end
         end
 
         def self.raise_cli_arguments_exception
-          raise Cc::Api::Parser::CLIArgumentsException, ERRORS['cli_arguments_exception']
+          begin
+            raise CLIArgumentsException.new(ERRORS['cli_arguments_exception'])
+          rescue Exception => e
+            puts e.message
+          end
         end
 
         protected

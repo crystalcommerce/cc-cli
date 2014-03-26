@@ -23,14 +23,16 @@ module Cc
         end
 
         desc "latticestores", "returns < name | postal_code | url >"
-        def latticestores *args
+        def latticestores 
           args.unshift "lattice-stores"
           self.perform args
         end
 
+        option :id
+        option :skus
         desc "latticeoffers --id ID --skus <array of skus separated by ','>", "returns < name | postal_code | url >"
-        def latticeoffers *args
-          args.unshift "lattice-offers"
+        def latticeoffers
+          args = ["lattice-offers", "--id", options[:id], "--skus", options[:skus]]
           self.perform args
         end
 

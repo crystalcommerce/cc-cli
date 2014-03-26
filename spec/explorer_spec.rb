@@ -10,8 +10,8 @@ describe Cc::Api::Explorer::CLI do
 
   context "lattice" do
     let(:skus) { ["123abc", "456def"] }
-    let(:expected_print_substring) {"┃      matt-environment          ┃      2                         ┃      2                         ┃      0                         ┃      0                         ┃"}
     context "products" do
+      let(:expected_print_substring) {"┃      matt-environment          ┃      2                         ┃      2                         ┃      0                         ┃      0                         ┃"}
       let(:id) { "123" }
       let(:args) { "--id #{id} --sku #{skus}" }
 
@@ -103,13 +103,19 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "offers" do
+      let(:expected_print_substring) { "┃      lettie-traffanstedt       ┃      109                       ┃      141                       ┃                                ┃                                ┃" }
       context "something is returned" do
         it "returns something" do
           stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/lattice/offers").
             with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
             to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-            cc.latticeoffers "--id", "201750", "--skus", "#{skus.join(',')}"
+            printed = capture_stdout do
+              args = ["latticeoffers", "--id", "201750", "--skus", skus.join(',')]
+              options = Cc::Api::Explorer::CLI.start(args)
+            end
+
+            expect(printed).to match expected_print_substring
         end
       end
     end

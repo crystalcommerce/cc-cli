@@ -60,9 +60,11 @@ module Cc
           self.perform args
         end
 
+        option :token
+        option :store
         desc "storeproducts --token <access token> --store <store name>", "returns < name | seoname | description >"
-        def storeproducts *args
-          args.unshift "store-products"
+        def storeproducts
+          args = ["store-products", "--token", options[:token], "--store", options[:store]]
           self.perform args
         end
 

@@ -213,6 +213,7 @@ describe Cc::Api::Explorer::CLI do
 
   context "store" do
     context "products" do
+      let(:expected_print_substring) { "┃      Ashnod's Cylix            ┃      ashnods_cylix             ┃                                ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products").with(:headers => {'Authorization' => 'OAuth 123'}).
@@ -220,7 +221,12 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          cc.storeproducts "--token", "123", "--store", "abc"
+          printed = capture_stdout do
+            args = ["storeproducts", "--token", "123", "--store", "abc"]
+            options = Cc::Api::Explorer::CLI.start(args)
+          end
+
+          expect(printed).to match expected_print_substring
         end
       end
     end

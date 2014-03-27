@@ -46,13 +46,13 @@ module Cc
               } 
             }
           when "catalog-products"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
+            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url] + "?page=#{res[:page]}"  } }
           when "catalog-product_types"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
+            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url] + "?page=#{res[:page]}" } }
           when "catalog-stores"
             { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
           when "catalog-categories"
-            { :request => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]]  }
+            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url] + "?page=#{res[:page]}" } }
           when "store-products"
             { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url].sub('*', res[:store]), token: res[:token] } }
           else

@@ -31,15 +31,15 @@ describe Cc::Api::Parser::ArgumentsMapper do
 
     context "catalog" do
       context "products" do
-        let(:args) { { :action => "catalog-products" } }
+        let(:args) { { :action => "catalog-products", :params => { :page => 1 } } }
 
-        it_behaves_like "arguments mapper returning blank json"
+        it_behaves_like "arguments mapper returning page params"
       end
 
       context "product types" do
-        let(:args) { { :action => "catalog-product_types" } }
+        let(:args) { { :action => "catalog-product_types", :params => { :page => 1 } } }
 
-        it_behaves_like "arguments mapper returning blank json"
+        it_behaves_like "arguments mapper returning page params"
       end
 
       context "stores" do
@@ -49,9 +49,9 @@ describe Cc::Api::Parser::ArgumentsMapper do
       end
 
       context "categories" do
-        let(:args) { { :action => "catalog-categories"} }
+        let(:args) { { :action => "catalog-categories", :params => { :page => 1} } }
 
-        it_behaves_like "arguments mapper returning blank json"
+        it_behaves_like "arguments mapper returning page params"
       end
     end
 

@@ -35,17 +35,17 @@ describe Cc::Api::Parser::ArgumentsParser do
 
     context "catalog" do
       context "products" do
-        let(:url) { "https://api.crystalcommerce.com/v1/catalog/products" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/products?page=1" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { {:action => "catalog-products"} }
+        let(:args) { {:action => "catalog-products", :params => {:page => 1} } }
 
         it_behaves_like "arguments parser returning expected result"
       end
 
       context "product types" do
-        let(:url) { "https://api.crystalcommerce.com/v1/catalog/product_types" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/product_types?page=1" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { { :action => "catalog-product_types" } }
+        let(:args) { { :action => "catalog-product_types", :params => {:page => 1} } }
 
         it_behaves_like "arguments parser returning expected result"
       end
@@ -59,9 +59,9 @@ describe Cc::Api::Parser::ArgumentsParser do
       end
 
       context "categories" do
-        let(:url) { "https://api.crystalcommerce.com/v1/catalog/categories" }
+        let(:url) { "https://api.crystalcommerce.com/v1/catalog/categories?page=1" }
         let(:expected_result) { { request: { url: url } } }
-        let(:args) { { :action => "catalog-categories" } }
+        let(:args) { { :action => "catalog-categories", :params => {:page => 1} } }
 
         it_behaves_like "arguments parser returning expected result"
       end

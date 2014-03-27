@@ -137,7 +137,7 @@ describe Cc::Api::Explorer::CLI do
       let(:expected_print_substring) { "┃      Abyssal Specter           ┃      abyssal_specter           ┃      Eighth Edition            ┃      0.0                       ┃                                ┃" }
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/products").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/products?page=1").
             to_return(:status => 200, :body => CATALOG_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -157,7 +157,7 @@ describe Cc::Api::Explorer::CLI do
       let(:expected_print_substring) { "┃      Pathfinder                ┃      2.0                       ┃      Toys                      ┃                                ┃" }
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/product_types").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/product_types?page=1").
             to_return(:status => 200, :body => CATALOG_PRODUCT_TYPES_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
@@ -195,7 +195,7 @@ describe Cc::Api::Explorer::CLI do
       let(:expected_print_substring) { "┃      Eighth Edition            ┃      eighth_edition            ┃                                ┃                                ┃      8E                        ┃      208                       ┃" }
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/categories").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/categories?page=1").
             to_return(:status => 200, :body => CATALOG_CATEGORIES_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 

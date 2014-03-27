@@ -14,8 +14,8 @@ module Cc
       class CLI < Thor
       
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
-        option :id, :required => true
-        option :skus, :requierd => true
+        option :id
+        option :skus
         desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]", 
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
         def lattice subcommand
@@ -35,20 +35,21 @@ module Cc
         end
 
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
+        option :page, :type => :numeric
         desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
         def catalog subcommand
           case subcommand 
           when "products"
-            args = {:action => "catalog-products"}
+            args = {:action => "catalog-products", :params => { :page => options[:page] || 1 } }
             self.perform args
           when "product_types"
-            args = {:action => "catalog-product_types"}
+            args = {:action => "catalog-product_types", :params => { :page => options[:page] || 1 } }
             self.perform args
           when "stores"
             args = {:action => "catalog-stores"}
             self.perform args
           when "categories"
-            args = {:action => "catalog-categories"}
+            args = {:action => "catalog-categories", :params => { :page => options[:page] || 1} }
             self.perform args
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception

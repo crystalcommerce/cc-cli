@@ -57,13 +57,14 @@ module Cc
         end
         
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
+        option :page, :type => :numeric
         option :token
         option :store
         desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
         def storeproducts subcommand
           case subcommand
           when "products"
-            args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store] } }
+            args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store], :page => options[:page] || 1} }
             self.perform args
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception

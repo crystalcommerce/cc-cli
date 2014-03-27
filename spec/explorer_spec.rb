@@ -216,13 +216,13 @@ describe Cc::Api::Explorer::CLI do
       let(:expected_print_substring) { "┃      Ashnod's Cylix            ┃      ashnods_cylix             ┃                                ┃" }
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products").with(:headers => {'Authorization' => 'OAuth 123'}).
+          stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products?page=2").with(:headers => {'Authorization' => 'OAuth 123'}).
             to_return(:status => 200, :body => STORE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
         it "returns something if arguments are correct" do
           printed = capture_stdout do
-            args = ["store", "products", "--token", "123", "--store", "abc"]
+            args = ["store", "products", "--token", "123", "--store", "abc", "--page", 2]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 

@@ -69,10 +69,10 @@ describe Cc::Api::Parser::ArgumentsParser do
 
     context "store" do
       context "products" do
-        let(:url) { "https://arux-api.crystalcommerce.com/v1/products" }
+        let(:url) { "https://arux-api.crystalcommerce.com/v1/products?page=2" }
         let(:token) { "123" }
         let(:expected_result) { { request: { url: url, token: token } } }
-        let(:args) { { :action => "store-products", :params => { :token => token, :store => "arux" } } }
+        let(:args) { { :action => "store-products", :params => { :token => token, :store => "arux", :page => 2 } } }
 
         it_behaves_like "arguments parser returning expected result"
       end

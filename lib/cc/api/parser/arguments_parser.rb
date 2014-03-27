@@ -54,7 +54,7 @@ module Cc
           when "catalog-categories"
             { :request => { :url => Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url] + "?page=#{res[:page]}" } }
           when "store-products"
-            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url].sub('*', res[:store]), token: res[:token] } }
+            { :request => { url: Cc::Api::Parser::ArgumentsMapper::ACTIONS[args[:action]][:url].sub('*', res[:store]) + "?page=#{res[:page]}", token: res[:token] } }
           else
             nil
           end

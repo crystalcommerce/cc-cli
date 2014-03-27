@@ -13,8 +13,9 @@ module Cc
     module Explorer
       class CLI < Thor
       
-        option :id
-        option :skus
+        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
+        option :id, :required => true
+        option :skus, :requierd => true
         desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]", 
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
         def lattice subcommand
@@ -33,6 +34,7 @@ module Cc
           end
         end
 
+        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
         def catalog subcommand
           case subcommand 
@@ -53,6 +55,7 @@ module Cc
           end
         end
         
+        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :token
         option :store
         desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
@@ -73,13 +76,14 @@ module Cc
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 
-
-            @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
-
             puts "response time: #{response[:response_time]}"
-
-            tabler = Cc::Api::Presentor::Tabler.new
-            tabler.present @result
+            unless options[:json]
+              @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
+              tabler = Cc::Api::Presentor::Tabler.new
+              tabler.present @result
+            else
+              puts JSON.pretty_generate response[:body]
+            end
           rescue Cc::Api::Util::LicenseKeysException
             puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'
           rescue Cc::Api::Http::ServerProblemException

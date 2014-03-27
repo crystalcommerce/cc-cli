@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-#TODO Dry this up
 describe Cc::Api::Explorer::CLI do
   before(:each) do
     allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return "abc:123"

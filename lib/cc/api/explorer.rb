@@ -21,12 +21,15 @@ module Cc
         def lattice subcommand
           case subcommand 
           when "products"
+            # { product : { variants : { store_variants : [ { store_variant : { ... } } ] } } } 
             args = {:action => "lattice-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
             self.perform args
           when "stores"
+            # { [ { store : { ... } } ] }
             args = {:action => "lattice-stores"}
             self.perform args
           when "offers"
+            # { <PRODUCT ID> : [ { ... } ] }
             args = {:action => "lattice-offers", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
             self.perform args
           else
@@ -40,15 +43,19 @@ module Cc
         def catalog subcommand
           case subcommand 
           when "products"
+            # { products : [ { ... }  }
             args = {:action => "catalog-products", :params => { :page => options[:page] || 1 } }
             self.perform args
           when "product_types"
+            # { products : [ { ... } ] }
             args = {:action => "catalog-product_types", :params => { :page => options[:page] || 1 } }
             self.perform args
           when "stores"
+            # { stores : [ { ... } ] }
             args = {:action => "catalog-stores"}
             self.perform args
           when "categories"
+            # { categories : [ { ... } ] }
             args = {:action => "catalog-categories", :params => { :page => options[:page] || 1} }
             self.perform args
           else
@@ -61,9 +68,10 @@ module Cc
         option :token
         option :store
         desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
-        def storeproducts subcommand
+        def store subcommand
           case subcommand
           when "products"
+            # { paginated_collection : { entries : [ { product: { ... } } ] } }
             args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store], :page => options[:page] || 1} }
             self.perform args
           else

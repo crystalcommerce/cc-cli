@@ -1,5 +1,17 @@
 require 'spec_helper'
 
+describe Cc::Api::Util::KeyChainsGetter do
+  let(:hash) { { :a => { :b => { :d => { :e =>  { :g => "end"}, :f => "end" } }, :c => "end" } } }
+  it "returns the key chains of a given hash" do
+
+    printed = capture_stdout do
+      res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash, 0, ""
+    end
+
+    printed.should eq "a.b.d.e.g\na.b.d.f\na.c\n"
+  end
+end
+
 describe Cc::Api::Util::ConfigReader do
   it "should return the path of the config file from the CC_API_KEY from user's environment" do
     Cc::Api::Util::ConfigReader.path.should match /..\/..\/..\/config\/cc_api_keys.yml/
@@ -24,3 +36,5 @@ describe Cc::Api::Util::ConfigReader do
     }.to raise_error Cc::Api::Util::LicenseKeysException 
   end
 end
+
+

@@ -4,6 +4,7 @@ require 'cc/api/parser/arguments_parser'
 require 'cc/api/parser/json_parser'
 require 'cc/api/presentor/presentor'
 require 'cc/api/util/config_reader'
+require 'cc/api/util/key_chains_getter'
 require 'command_line_reporter'
 require 'thor'
 require 'yaml'
@@ -13,10 +14,10 @@ module Cc
     module Explorer
       class CLI < Thor
 
-        option :offset, :type => :numeric
-        option :limit, :type => :numeric
-        option :colw, :type => :numeric
-        option :colp, :type => :numeric
+        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
+        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
+        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
+        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :id
         option :skus
@@ -41,10 +42,10 @@ module Cc
           end
         end
 
-        option :offset, :type => :numeric
-        option :limit, :type => :numeric
-        option :colw, :type => :numeric
-        option :colp, :type => :numeric
+        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
+        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
+        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
+        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :page, :type => :numeric
         desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
@@ -71,10 +72,10 @@ module Cc
           end
         end
         
-        option :offset, :type => :numeric
-        option :limit, :type => :numeric
-        option :colw, :type => :numeric
-        option :colp, :type => :numeric
+        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
+        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
+        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
+        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :page, :type => :numeric
         option :token

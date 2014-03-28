@@ -19,7 +19,7 @@ describe Cc::Api::Parser::ArgumentsParser do
       end
 
       context "stores" do
-        let(:expected_result) { {request: { url: url + "stores" } } }
+        let(:expected_result) { {request: { url: url + "stores", :target_key_chain => "" } } }
         let(:args) { {:action => "lattice-stores"} }
 
         it_behaves_like "arguments parser returning expected result"

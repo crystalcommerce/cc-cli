@@ -23,7 +23,11 @@ module Cc
           begin
             a = hash
             target.split('.').each do |key|
-              a = a[key]
+              if key == 'FIRST'
+                a = a[0]
+              else
+                a = a[key]
+              end
             end
             a
           rescue

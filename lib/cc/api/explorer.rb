@@ -14,6 +14,7 @@ module Cc
     module Explorer
       class CLI < Thor
 
+        option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
         option :colw, :type => :numeric, :banner => "width of every column to be displayed"
@@ -73,6 +74,7 @@ module Cc
           end
         end
         
+        option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
         option :colw, :type => :numeric, :banner => "width of every column to be displayed"

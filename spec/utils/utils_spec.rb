@@ -5,7 +5,7 @@ describe Cc::Api::Util::KeyChainsGetter do
   let(:target_array) { ["target_array"] }
   let(:hash_with_array) { { 'a' => { 'b' => target_array } } }
   it "returns the key chains of a given hash" do
-
+    #TODO: What if value is an Array? e.g. { :a => { :b => { :d => { :e =>  { :g => ["what", "if", "im", "an", "array"]}, :f => "end" } }, :c => "end" } }
     printed = capture_stdout do
       res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash, 0, ""
     end

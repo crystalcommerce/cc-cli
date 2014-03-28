@@ -105,7 +105,9 @@ module Cc
             if options[:json]
               puts JSON.pretty_generate response[:body]
             elsif options[:keychains]
-              puts Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
+              target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
+              array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target
+              Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, 0, ""
             else options[:json]
               @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
               tabler = Cc::Api::Presentor::Tabler.new

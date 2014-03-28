@@ -12,7 +12,7 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
-      
+
         option :offset, :type => :numeric
         option :limit, :type => :numeric
         option :colw, :type => :numeric

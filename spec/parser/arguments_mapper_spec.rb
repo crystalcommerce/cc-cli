@@ -68,4 +68,11 @@ describe Cc::Api::Parser::ArgumentsMapper do
       end
     end
   end
+
+  describe "get_url" do
+    it "gets the correct url for the given action" do
+      a = { :url => "https://api.crystalcommerce.com/v1/catalog/products" }
+      Cc::Api::Parser::ArgumentsMapper.get_url( "catalog-products").should eq a
+    end
+  end
 end

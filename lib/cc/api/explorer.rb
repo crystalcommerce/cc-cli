@@ -13,6 +13,8 @@ module Cc
     module Explorer
       class CLI < Thor
       
+        option :offset, :type => :numeric
+        option :limit, :type => :numeric
         option :colw, :type => :numeric
         option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
@@ -39,6 +41,8 @@ module Cc
           end
         end
 
+        option :offset, :type => :numeric
+        option :limit, :type => :numeric
         option :colw, :type => :numeric
         option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
@@ -67,6 +71,8 @@ module Cc
           end
         end
         
+        option :offset, :type => :numeric
+        option :limit, :type => :numeric
         option :colw, :type => :numeric
         option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
@@ -96,7 +102,7 @@ module Cc
             unless options[:json]
               @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
               tabler = Cc::Api::Presentor::Tabler.new
-              tabler.present @result, options[:colw], options[:colp]
+              tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
             else
               puts JSON.pretty_generate response[:body]
             end

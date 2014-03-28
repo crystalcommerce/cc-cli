@@ -6,7 +6,7 @@ module Cc
       class Tabler
         include CommandLineReporter
 
-        def present result, column_width, column_padding
+        def present result, column_width, column_padding, offset, limit
           unless result.empty?
             table :border => true do
               row do
@@ -15,7 +15,8 @@ module Cc
                 end
               end
 
-              result.each do |res|
+              result.drop(offset || 0).each_with_index do |res, i|
+                break if limit && i > limit-1
                 row do
                   res.collect{|k,v| v}.each do |val|
                     column(val)

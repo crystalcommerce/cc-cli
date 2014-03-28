@@ -35,7 +35,6 @@ RSpec.configure do |config|
 
   suppress_stdouts config
 
-
   LATTICE_PRODUCTS_RESPONSE = IO.read("spec/dummy_data/lattice_products.json") # sample json response 
   LATTICE_STORES_RESPONSE = IO.read("spec/dummy_data/lattice_stores.json") # sample json response 
   LATTICE_OFFERS_RESPONSE = IO.read("spec/dummy_data/lattice_offers.json") # sample json response 

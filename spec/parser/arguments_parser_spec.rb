@@ -52,7 +52,7 @@ describe Cc::Api::Parser::ArgumentsParser do
 
       context "product types" do
         let(:url) { "https://api.crystalcommerce.com/v1/catalog/stores" }
-        let(:expected_result) { { request: { url: url } } }
+        let(:expected_result) { { request: { url: url, :target_key_chain=>"stores" } } }
         let(:args) { { :action => "catalog-stores" } }
 
         it_behaves_like "arguments parser returning expected result"

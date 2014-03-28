@@ -18,6 +18,18 @@ module Cc
             end
           end
         end
+
+        def self.get_target_array hash, target
+          begin
+            a = hash
+            target.split('.').each do |key|
+              a = a[key]
+            end
+            a
+          rescue
+            puts "Target not found."
+          end
+        end
       end
     end
   end

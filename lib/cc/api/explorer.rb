@@ -42,6 +42,7 @@ module Cc
           end
         end
 
+        option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
         option :colw, :type => :numeric, :banner => "width of every column to be displayed"
@@ -100,12 +101,15 @@ module Cc
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 
             puts "response time: #{response[:response_time]}"
-            unless options[:json]
+            
+            if options[:json]
+              puts JSON.pretty_generate response[:body]
+            elsif options[:keychains]
+              puts Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
+            else options[:json]
               @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
               tabler = Cc::Api::Presentor::Tabler.new
               tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
-            else
-              puts JSON.pretty_generate response[:body]
             end
           rescue Cc::Api::Util::LicenseKeysException
             puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'

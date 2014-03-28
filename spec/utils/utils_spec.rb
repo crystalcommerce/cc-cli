@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Cc::Api::Util::KeyChainsGetter do
   let(:hash) { { :a => { :b => { :d => { :e =>  { :g => "end"}, :f => "end" } }, :c => "end" } } }
+  let(:target_array) { ["target_array"] }
+  let(:hash_with_array) { { 'a' => { 'b' => target_array } } }
   it "returns the key chains of a given hash" do
 
     printed = capture_stdout do
@@ -9,6 +11,18 @@ describe Cc::Api::Util::KeyChainsGetter do
     end
 
     printed.should eq "a.b.d.e.g\na.b.d.f\na.c\n"
+  end
+
+  it "returns the target array" do
+    res = Cc::Api::Util::KeyChainsGetter.get_target_array hash_with_array, "a.b"
+    res.should eq target_array
+  end
+
+  it "throws exception with target not found" do
+    printed = capture_stdout do
+      res = Cc::Api::Util::KeyChainsGetter.get_target_array hash_with_array, "a.b.c"
+    end
+    printed.should eq "Target not found.\n"
   end
 end
 

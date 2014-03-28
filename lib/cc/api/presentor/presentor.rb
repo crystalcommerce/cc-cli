@@ -6,12 +6,12 @@ module Cc
       class Tabler
         include CommandLineReporter
 
-        def present result
+        def present result, column_width, column_padding
           unless result.empty?
             table :border => true do
               row do
                 result.first.collect{|k,v| k}.each do |col|
-                  column(col, align: 'left', width: 30, padding: 5)
+                  column(col, align: 'left', width: column_width || 30, padding: column_padding || 5)
                 end
               end
 

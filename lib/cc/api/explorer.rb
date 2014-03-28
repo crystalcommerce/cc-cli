@@ -13,6 +13,8 @@ module Cc
     module Explorer
       class CLI < Thor
       
+        option :colw, :type => :numeric
+        option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :id
         option :skus
@@ -37,6 +39,8 @@ module Cc
           end
         end
 
+        option :colw, :type => :numeric
+        option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :page, :type => :numeric
         desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
@@ -63,6 +67,8 @@ module Cc
           end
         end
         
+        option :colw, :type => :numeric
+        option :colp, :type => :numeric
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :page, :type => :numeric
         option :token
@@ -90,7 +96,7 @@ module Cc
             unless options[:json]
               @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
               tabler = Cc::Api::Presentor::Tabler.new
-              tabler.present @result
+              tabler.present @result, options[:colw], options[:colp]
             else
               puts JSON.pretty_generate response[:body]
             end

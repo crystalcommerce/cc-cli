@@ -13,7 +13,18 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
+        DEFAULT_COLS = {
+                          "lattice-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
+                          "lattice-stores" => ["store.name", "store.state", "store.url"],
+                          "lattice-offers" => ["store.name", "buy_price.cents", "sell_price.cents"],
+                          "catalog-products" => ["name", "barcode", "weight"],
+                          "catalog-product_types" => ["name", "id", "default_weight"],
+                          "catalog-stores" => ["name", "postal_code", "url"],
+                          "catalog-categories" => ["name", "seoname", "description"],
+                          "store-products" => ["product.seoname", "product.weight", "product.description"]
+                        }
 
+        option :cols, :type => :array
         option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
@@ -43,6 +54,7 @@ module Cc
           end
         end
 
+        option :cols, :type => :array
         option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
@@ -50,7 +62,8 @@ module Cc
         option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
         option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
         option :page, :type => :numeric
-        desc "catalog [products] | [product_types] | [stores] | [categories]", "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
+        desc "catalog [products] | [product_types] | [stores] | [categories]", 
+          "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
         def catalog subcommand
           case subcommand 
           when "products"
@@ -74,6 +87,7 @@ module Cc
           end
         end
         
+        option :cols, :type => :array
         option :keychains, :type => :boolean
         option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
         option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
@@ -110,8 +124,10 @@ module Cc
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
               array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
               Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, 0, ""
-            else options[:json]
-              @result = Cc::Api::Parser::JsonParser.reduce action, response[:body], []
+            else
+              target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
+              array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
+              @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
               tabler = Cc::Api::Presentor::Tabler.new
               tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
             end

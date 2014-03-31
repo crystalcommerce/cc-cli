@@ -10,7 +10,7 @@ describe Cc::Api::Explorer::CLI do
   context "lattice" do
     let(:skus) { ["123abc", "456def"] }
     context "products" do
-      let(:expected_print_substring) {"┃      matt-environment          ┃      2                         ┃      2                         ┃      0                         ┃      0                         ┃"}
+      let(:expected_print_substring) {"┃      theendgames               ┃      0                         ┃      USD                       ┃"}
       let(:id) { "123" }
       let(:args) { "--id #{id} --sku #{skus}" }
 
@@ -113,7 +113,7 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "offers" do
-      let(:expected_print_substring) { "┃      lettie-traffanstedt       ┃      109                       ┃      141                       ┃                                ┃                                ┃" }
+      let(:expected_print_substring) { "┃      Lettie Traffanstedt'      ┃      109                       ┃      526                       ┃" }
       context "something is returned" do
         it "returns something" do
           stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/lattice/offers").
@@ -133,7 +133,7 @@ describe Cc::Api::Explorer::CLI do
   
   context "catalog" do
     context "products" do
-      let(:expected_print_substring) { "┃      Abyssal Specter           ┃      abyssal_specter           ┃      Eighth Edition            ┃      0.0                       ┃                                ┃" }
+      let(:expected_print_substring) { "┃      Aven Cloudchaser          ┃                                ┃      0.0                       ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/products?page=1").
@@ -153,7 +153,7 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "product_types" do
-      let(:expected_print_substring) { "┃      Pathfinder                ┃      2.0                       ┃      Toys                      ┃                                ┃" }
+      let(:expected_print_substring) { "┃      Cthulhu Tech              ┃      138                       ┃      1.0                       ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/product_types?page=1").
@@ -172,7 +172,7 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "stores" do
-      let(:expected_print_substring) { "┃      PlayCCG.com               ┃      731 North 94th St         ┃      Unit 4                    ┃      98103                     ┃      Seattle                   ┃      WA                        ┃      US                        ┃" }
+      let(:expected_print_substring) { "┃      Asgard Keep               ┃      62864                     ┃      http://asgardkeep.co      ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/stores").
@@ -191,7 +191,7 @@ describe Cc::Api::Explorer::CLI do
     end
 
     context "categories" do
-      let(:expected_print_substring) { "┃      Eighth Edition            ┃      eighth_edition            ┃                                ┃                                ┃      8E                        ┃      208                       ┃" }
+      let(:expected_print_substring) { "┃      Deathknell                ┃      deathknell                ┃                                ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/categories?page=1").
@@ -212,7 +212,7 @@ describe Cc::Api::Explorer::CLI do
 
   context "store" do
     context "products" do
-      let(:expected_print_substring) { "┃      Ashnod's Cylix            ┃      ashnods_cylix             ┃                                ┃" }
+      let(:expected_print_substring) { "┃      ashnods_cylix             ┃      0.0037                    ┃                                ┃" }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products?page=2").with(:headers => {'Authorization' => 'OAuth 123'}).

@@ -2,24 +2,13 @@ module Cc
   module Api
     module Util
       class KeyChainsGetter
-        def self.get_key_chains elements, string
-          return unless elements
+        @@key_chains = []
 
-          if elements.class == Hash
-            elements.each do |key, array|
-              self.get_key_chains array, string + key.to_s + '.'
-            end
-          elsif elements.class == Array
-            begin
-              elements.first.each do |key, array|
-                self.get_key_chains array, string + '<index>.' + key.to_s + '.'
-              end
-            rescue
-              return
-            end
-          else
-            puts string[0...-1]
-          end
+        def self.get_key_chains elements, string
+          puts "\navailable key-chains\n===================="
+          self.key_chains elements, string
+          puts "\nUSAGE:"
+          puts "--cols #{[@@key_chains.sample, @@key_chains.sample, @@key_chains.sample].join(',')}"
         end
 
         def self.get_target_array hash, target, id=nil
@@ -41,6 +30,27 @@ module Cc
         end
 
         protected
+
+        def self.key_chains elements, string
+          return unless elements
+
+          if elements.class == Hash
+            elements.each do |key, array|
+              self.key_chains array, string + key.to_s + '.'
+            end
+          elsif elements.class == Array
+            begin
+              elements.first.each do |key, array|
+                self.key_chains array, string + '<index>.' + key.to_s + '.'
+              end
+            rescue
+              return
+            end
+          else
+            puts string[0...-1]
+            @@key_chains << string[0...-1]
+          end
+        end
 
         def self.all_elements_are_leaf array #elements' class are neither Array nor Hash
           array.each do |a|

@@ -31,11 +31,42 @@ Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file
 
 These are the available commands:
 
-    $ cc catalog categories                                                # returns < name | seoname | description | available_on | set_code | product_type_id >
-    $ cc catalog products                                                  # returns < name | seoname | category_name | weight | description >
-    $ cc catalog product_types                                             # returns < name | default_weight | amazon_search_index | weight >
-    $ cc catalog stores                                                    # returns < name | address1 | address2 | postal_code | city | state | country >
-    $ cc lattice offers --id ID --skus <array of skus separated by ','>    # returns < name | postal_code | url >
-    $ cc lattice products --id ID --skus <array of skus separated by ','>  # returns < storename | qty | inventory_qty | sell_price | buy_price > 
-    $ cc lattice stores                                                    # returns < name | postal_code | url >
-    $ cc store products --token <access token> --store <store name>        # returns < name | seoname | description >
+    $ cc catalog [products] | [product_types] | [stores] | [categories]
+    $ cc help [COMMAND]
+    $ cc lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]
+    $ cc store [products --token <access token> --store <store name>]
+
+To choose columns/json keys to display:
+
+  Display the available 'key-chains' for a given command. Say for example `cc catalog products`:
+
+    $ cc catalog products --keychains
+
+    available key-chains
+    ====================
+    id
+    name
+    seoname
+    category_name
+    weight
+    description
+    asin
+    category_id
+    product_type_id
+    descriptors.Pow/Tgh
+    descriptors.Name
+    descriptors.Color
+    descriptors.Cost
+    descriptors.Rarity
+    descriptors.Card Text
+    descriptors.Finish
+    descriptors.Card Type
+    descriptors.Set Name
+    photo.content_type
+    photo.urls.medium
+    photo.urls.thumb
+    photo.urls.large
+    photo.urls.ebay
+
+    USAGE:
+    --cols id,descriptors.Set Name,descriptors.Cost 

@@ -25,15 +25,31 @@ module Cc
             "store-products" => ["product.seoname", "product.weight", "product.description"]
           }
 
-        option :cols, :type => :array
-        option :keychains, :type => :boolean
-        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
-        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
-        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
-        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
-        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
-        option :id
-        option :skus
+        DESC =
+          {
+            "cols" => "JSON 'key chains' to display as columns to the output table. To determine 'key chains' for a selected command use --keychains.",
+            "keychains" => "Output the 'key chains' for a command",
+            "offset" => "Offset of the starting row to be displayed. Nothing is displayed when out of bounds.",
+            "limit" => "Limit of rows to be displayed.",
+            "colw" => "Width of every column to be displayed.",
+            "colp" => "Padding of every cell to be displayed.",
+            "json" => "Prints the JSON response body instead",
+            "id" => "Product ID",
+            "skus" => "SKUs separated by ',' if more than one",
+            "page" => "Page number of the response",
+            "token" => "OAuth Token",
+            "store" => "Store name (Crystal Commerce Client)"
+          }
+
+        option :cols, :desc => DESC["cols"]
+        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :offset, :type => :numeric, :desc => DESC["offset"]
+        option :limit, :type => :numeric, :desc => DESC["limit"]
+        option :colw, :type => :numeric, :desc => DESC["colw"]
+        option :colp, :type => :numeric, :desc => DESC["colp"]
+        option :json, :type => :boolean, :desc => DESC["json"]
+        option :id, :desc => DESC["id"]
+        option :skus, :desc => DESC["skus"]
         desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]", 
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
         def lattice subcommand
@@ -55,14 +71,15 @@ module Cc
           end
         end
 
-        option :cols, :type => :array
-        option :keychains, :type => :boolean
-        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
-        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
-        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
-        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
-        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
-        option :page, :type => :numeric
+        option :cols, :desc => DESC["cols"]
+        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :offset, :type => :numeric, :desc => DESC["offset"]
+        option :limit, :type => :numeric, :desc => DESC["limit"]
+        option :colw, :type => :numeric, :desc => DESC["colw"]
+        option :colp, :type => :numeric, :desc => DESC["colp"]
+        option :json, :type => :boolean, :desc => DESC["json"]
+        option :page, :type => :numeric, :desc => DESC["page"]
+
         desc "catalog [products] | [product_types] | [stores] | [categories]", 
           "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
         def catalog subcommand
@@ -87,17 +104,18 @@ module Cc
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
         end
-        
-        option :cols, :type => :array
-        option :keychains, :type => :boolean
-        option :offset, :type => :numeric, :banner => "Offset of the starting row to be displayed"
-        option :limit, :type => :numeric, :banner => "Limit of rows to be displayed"
-        option :colw, :type => :numeric, :banner => "width of every column to be displayed"
-        option :colp, :type => :numeric, :banner => "padding of every column to be displayed"
-        option :json, :type => :boolean, :banner => "Prints the JSON format response body instead"
-        option :page, :type => :numeric
-        option :token
-        option :store
+
+        option :cols, :desc => DESC["cols"]
+        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :offset, :type => :numeric, :desc => DESC["offset"]
+        option :limit, :type => :numeric, :desc => DESC["limit"]
+        option :colw, :type => :numeric, :desc => DESC["colw"]
+        option :colp, :type => :numeric, :desc => DESC["colp"]
+        option :json, :type => :boolean, :desc => DESC["json"]
+        option :page, :type => :numeric, :desc => DESC["page"]
+        option :token, :desc => DESC["token"]
+        option :store, :desc => DESC["store"]
+
         desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
         def store subcommand
           case subcommand
@@ -127,7 +145,11 @@ module Cc
               if options[:keychains]
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
               else
-                @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols] || DEFAULT_COLS[args[:action]]
+                begin
+                  @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
+                rescue
+                  @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
+                end
                 tabler = Cc::Api::Presentor::Tabler.new
                 tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
               end

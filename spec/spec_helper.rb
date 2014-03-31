@@ -4,6 +4,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'webmock/rspec'
 require 'cc/api/explorer'
+require 'pry'
 
 def suppress_stdouts config #need to suppress command_line_reporter's output
   original_stderr = $stderr

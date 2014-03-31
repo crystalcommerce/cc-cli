@@ -19,12 +19,14 @@ module Cc
           end
         end
 
-        def self.get_target_array hash, target
+        def self.get_target_array hash, target, id=nil
           begin
             a = hash
             target.split('.').each do |key|
               if key == 'FIRST'
                 a = a[0]
+              elsif key == 'PRODUCT_ID'
+                a = a[id]
               else
                 a = a[key]
               end

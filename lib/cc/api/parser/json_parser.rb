@@ -25,7 +25,27 @@ module Cc
           end
         end
 
+        def self.vanilla_reduce array, cols
+          result = []
+
+          unless array.nil? 
+            array.each do |j|
+              hash = {}
+              cols.each do |col|
+                a = j
+                col.split('.').each do |key|
+                  a = a[key]
+                end
+                hash[col] = a || ""
+              end
+              result << hash
+            end
+          end
+          result
+        end 
+
         protected
+
 
         def self.reduce_for_lattice_products json, cols
           result = []

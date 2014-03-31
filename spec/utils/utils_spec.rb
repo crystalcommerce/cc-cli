@@ -2,16 +2,25 @@ require 'spec_helper'
 
 describe Cc::Api::Util::KeyChainsGetter do
   let(:hash) { { :a => { :b => { :d => { :e =>  { :g => "end"}, :f => "end" } }, :c => "end" } } }
-  let(:target_array) { ["target_array"] }
+  let(:target_array) { [{ :c => "end"}] }
   let(:hash_with_array) { { 'a' => { 'b' => target_array } } }
   it "returns the key chains of a given hash" do
     #TODO: What if value is an Array? e.g. { :a => { :b => { :d => { :e =>  { :g => ["what", "if", "im", "an", "array"]}, :f => "end" } }, :c => "end" } }
     printed = capture_stdout do
-      res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash, 0, ""
+      res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash, ""
     end
 
     printed.should eq "a.b.d.e.g\na.b.d.f\na.c\n"
   end
+
+  it "returns the key chains of a given hash with array of hashes as an element" do
+    printed = capture_stdout do
+      res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash_with_array, ""
+    end
+
+    printed.should eq "a.b.< index >.c\n"
+  end
+
 
   it "returns the target array" do
     res = Cc::Api::Util::KeyChainsGetter.get_target_array hash_with_array, "a.b"

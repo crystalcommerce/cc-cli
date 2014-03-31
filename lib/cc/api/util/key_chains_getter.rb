@@ -2,20 +2,23 @@ module Cc
   module Api
     module Util
       class KeyChainsGetter
-        def self.get_key_chains hashes, level, string
-          hashes.map.each_with_index do |k, i| 
-            if k.class != Hash && k.class != Array
-              spaces = ""
-              (0..level).each do 
-                spaces = spaces +  " "
-              end
-              if i == 1
-                puts string[0...-1] if i == 1 
-              end
-              string = string + k.to_s + "."
-            else
-              self.get_key_chains k, level + 1, string
+        def self.get_key_chains elements, string
+          return unless elements
+
+          if elements.class == Hash
+            elements.each do |key, array|
+              self.get_key_chains array, string + key.to_s + '.'
             end
+          elsif elements.class == Array
+            begin
+              elements.first.each do |key, array|
+                self.get_key_chains array, string + '<index>.' + key.to_s + '.'
+              end
+            rescue
+              return
+            end
+          else
+            puts string[0...-1]
           end
         end
 
@@ -35,6 +38,16 @@ module Cc
           rescue
             puts "Target not found."
           end
+        end
+
+        protected
+
+        def self.all_elements_are_leaf array #elements' class are neither Array nor Hash
+          array.each do |a|
+            return false if a.class == Array || a.class == Hash
+          end
+
+          return true
         end
       end
     end

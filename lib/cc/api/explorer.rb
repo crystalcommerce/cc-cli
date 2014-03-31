@@ -125,7 +125,7 @@ module Cc
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
               array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
               if options[:keychains]
-                Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, 0, ""
+                Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
               else
                 @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
                 tabler = Cc::Api::Presentor::Tabler.new

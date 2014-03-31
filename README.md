@@ -38,7 +38,7 @@ These are the available commands:
 
 To choose columns/json keys to display:
 
-  Display the available 'key-chains' for a given command. Say for example `cc catalog products`:
+  Display the available 'key-chains' for a given command. Say for example `$ cc catalog products`:
 
     $ cc catalog products --keychains
 
@@ -92,7 +92,7 @@ To choose columns/json keys to display:
     ┃      Angel of Mercy            ┃      3/3                       ┃      angel_of_mercy            ┃ 
     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-  When `--cols` is not used, the default `--cols` values will then be selected
+  When `--cols` is not used, the default `--cols` values will then be selected.
 
   This is also capable of displaying values from arrays within the JSON object from the API response. For example let's first print `$ cc catalog product_types` 'key-chains':
 
@@ -173,8 +173,8 @@ Other available options:
     [--limit=N]    # Limit of rows to be displayed.
     [--colw=N]     # Width of every column to be displayed.
     [--colp=N]     # Padding of every cell to be displayed.
-    [--json]       # Prints the JSON response body instead
-    [--page=N]     # Page number of the response
+    [--json]       # Prints the JSON response body instead.
+    [--page=N]     # Page number of the response.
 
 ## TODO
 

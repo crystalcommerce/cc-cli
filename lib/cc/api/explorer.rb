@@ -13,16 +13,17 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
-        DEFAULT_COLS = {
-                          "lattice-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
-                          "lattice-stores" => ["store.name", "store.state", "store.url"],
-                          "lattice-offers" => ["store.name", "buy_price.cents", "sell_price.cents"],
-                          "catalog-products" => ["name", "barcode", "weight"],
-                          "catalog-product_types" => ["name", "id", "default_weight"],
-                          "catalog-stores" => ["name", "postal_code", "url"],
-                          "catalog-categories" => ["name", "seoname", "description"],
-                          "store-products" => ["product.seoname", "product.weight", "product.description"]
-                        }
+        DEFAULT_COLS = 
+          {
+            "lattice-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
+            "lattice-stores" => ["store.name", "store.state", "store.url"],
+            "lattice-offers" => ["store.name", "buy_price.cents", "sell_price.cents"],
+            "catalog-products" => ["name", "barcode", "weight"],
+            "catalog-product_types" => ["name", "id", "default_weight"],
+            "catalog-stores" => ["name", "postal_code", "url"],
+            "catalog-categories" => ["name", "seoname", "description"],
+            "store-products" => ["product.seoname", "product.weight", "product.description"]
+          }
 
         option :cols, :type => :array
         option :keychains, :type => :boolean
@@ -120,16 +121,16 @@ module Cc
             
             if options[:json]
               puts JSON.pretty_generate response[:body]
-            elsif options[:keychains]
-              target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
-              array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
-              Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, 0, ""
             else
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
               array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
-              @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
-              tabler = Cc::Api::Presentor::Tabler.new
-              tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
+              if options[:keychains]
+                Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, 0, ""
+              else
+                @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
+                tabler = Cc::Api::Presentor::Tabler.new
+                tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
+              end
             end
           rescue Cc::Api::Util::LicenseKeysException
             puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'

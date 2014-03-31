@@ -32,4 +32,12 @@ shared_examples "json parser" do
     result.should eq [] 
   end
 
+  it "throws exception whenever chosen_columns are not valid" do
+    json = nil
+    target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain action
+    array = Cc::Api::Util::KeyChainsGetter.get_target_array json, target
+
+    result = Cc::Api::Parser::JsonParser.vanilla_reduce array, ["invalid", "columns"]
+  end
+
 end

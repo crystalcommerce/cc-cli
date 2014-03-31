@@ -18,7 +18,7 @@ describe Cc::Api::Util::KeyChainsGetter do
       res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash_with_array, ""
     end
 
-    printed.should eq "a.b.< index >.c\n"
+    printed.should eq "a.b.<index>.c\n"
   end
 
 

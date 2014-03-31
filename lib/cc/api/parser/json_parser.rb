@@ -2,7 +2,6 @@ module Cc
   module Api
     module Parser
       class JsonParser
-
         def self.vanilla_reduce array, cols
           result = []
 
@@ -12,7 +11,11 @@ module Cc
               cols.each do |col|
                 a = j
                 col.split('.').each do |key|
-                  a = a[key]
+                  begin 
+                    a = a[self.is_numeric?(key) ? key.to_i : key]
+                  rescue NoMethodError 
+                    break
+                  end
                 end
                 hash[col] = a || ""
               end
@@ -21,6 +24,12 @@ module Cc
           end
           result
         end 
+
+        protected
+
+        def self.is_numeric? i
+          /^\d+$/ === i
+        end
       end
     end
   end

@@ -127,7 +127,7 @@ module Cc
               if options[:keychains]
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
               else
-                @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
+                @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols] || DEFAULT_COLS[args[:action]]
                 tabler = Cc::Api::Presentor::Tabler.new
                 tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
               end

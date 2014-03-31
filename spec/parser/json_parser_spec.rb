@@ -46,12 +46,23 @@ describe Cc::Api::Parser::JsonParser do
       end
 
       context "product_types" do
-        let(:json_response) { CATALOG_PRODUCT_TYPES_RESPONSE }
-        let(:blank_json_response) {'{"product_types":[]}'}
-        let(:action) { "catalog-product_types" }
-        let(:chosen_columns) { ["name", "default_weight"] }
+        context "valid chosen columns" do
+          let(:json_response) { CATALOG_PRODUCT_TYPES_RESPONSE }
+          let(:blank_json_response) {'{"product_types":[]}'}
+          let(:action) { "catalog-product_types" }
+          let(:chosen_columns) { ["name", "default_weight", "variant_dimensions.0.name"] }
 
-        it_behaves_like "json parser"
+          it_behaves_like "json parser"
+        end
+
+        context "invalid chosen columns having index in variant_diments.<index>.name out of bounds" do
+          let(:json_response) { CATALOG_PRODUCT_TYPES_RESPONSE }
+          let(:blank_json_response) {'{"product_types":[]}'}
+          let(:action) { "catalog-product_types" }
+          let(:chosen_columns) { ["name", "default_weight", "variant_dimensions.500.name"] }
+
+          it_behaves_like "json parser"
+        end
       end
 
       context "stores" do
@@ -74,12 +85,24 @@ describe Cc::Api::Parser::JsonParser do
     end
 
     context "stores" do
-      let(:json_response) { STORE_PRODUCTS_RESPONSE }
-      let(:blank_json_response) {'{"paginated_collection": {"entries" : []} }'}
-      let(:action) { "store-products" }
-      let(:chosen_columns) { ["product.weight", "product.qty"] }
+      context "valid chosen columns" do
+        let(:json_response) { STORE_PRODUCTS_RESPONSE }
+        let(:blank_json_response) {'{"paginated_collection": {"entries" : []} }'}
+        let(:action) { "store-products" }
+        let(:chosen_columns) { ["product.weight", "product.qty", "product.default_variant.variant.descriptors.0.variant_descriptor.name"] }
 
-      it_behaves_like "json parser"
+        it_behaves_like "json parser"
+      end
+
+      context "invalid chosen columns having index in variant_diments.<index>.name out of bounds" do
+        let(:json_response) { STORE_PRODUCTS_RESPONSE }
+        let(:blank_json_response) {'{"paginated_collection": {"entries" : []} }'}
+        let(:action) { "store-products" }
+        let(:chosen_columns) { ["product.weight", "product.qty", "product.default_variant.variant.descriptors.500.variant_descriptor.name"] }
+
+        it_behaves_like "json parser"
+
+      end
     end
   end
 end

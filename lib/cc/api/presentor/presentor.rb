@@ -1,4 +1,5 @@
 require 'command_line_reporter'
+require 'csv'
 
 module Cc
   module Api
@@ -23,6 +24,19 @@ module Cc
                   end
                 end
               end
+            end
+          end
+        end
+      end
+
+      class CSVer
+        def self.to_csv result, file, offset, limit
+
+          CSV.open file, "wb" do |csv|
+            csv << result.first.keys
+            result.drop(offset || 0).each_with_index do |row, i|
+              break if limit && i > limit-1
+              csv << row.values
             end
           end
         end

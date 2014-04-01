@@ -27,20 +27,22 @@ module Cc
 
         DESC =
           {
-            "cols" => "JSON 'key chains' to display as columns to the output table. To determine 'key chains' for a selected command use --keychains.",
+            "cols" => "JSON 'key chains' to display as columns to the output table. To determine 'key chains' for a selected command use --keychains",
             "keychains" => "Output the 'key chains' for a command",
-            "offset" => "Offset of the starting row to be displayed. Nothing is displayed when out of bounds.",
-            "limit" => "Limit of rows to be displayed.",
-            "colw" => "Width of every column to be displayed.",
-            "colp" => "Padding of every cell to be displayed.",
+            "offset" => "Offset of the starting row to be displayed. Nothing is displayed when out of bounds",
+            "limit" => "Limit of rows to be displayed",
+            "colw" => "Width of every column to be displayed",
+            "colp" => "Padding of every cell to be displayed",
             "json" => "Prints the JSON response body instead",
             "id" => "Product ID",
             "skus" => "SKUs separated by ',' if more than one",
             "page" => "Page number of the response",
             "token" => "OAuth Token",
-            "store" => "Store name (Crystal Commerce Client)"
+            "store" => "Store name (Crystal Commerce Client)",
+            "csv" => "Print out the result into a csv file. Columns are separated by comma"
           }
 
+        option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
         option :keychains, :type => :boolean, :desc => DESC["keychains"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
@@ -50,7 +52,7 @@ module Cc
         option :json, :type => :boolean, :desc => DESC["json"]
         option :id, :desc => DESC["id"]
         option :skus, :desc => DESC["skus"]
-        desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]", 
+        desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]", 
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
         def lattice subcommand
           case subcommand 
@@ -71,6 +73,7 @@ module Cc
           end
         end
 
+        option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
         option :keychains, :type => :boolean, :desc => DESC["keychains"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
@@ -105,6 +108,7 @@ module Cc
           end
         end
 
+        option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
         option :keychains, :type => :boolean, :desc => DESC["keychains"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
@@ -146,12 +150,13 @@ module Cc
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
               else
                 begin
-                  @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
+                  result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
                 rescue
-                  @result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
+                  result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
                 end
                 tabler = Cc::Api::Presentor::Tabler.new
-                tabler.present @result, options[:colw], options[:colp], options[:offset], options[:limit]
+                tabler.present result, options[:colw], options[:colp], options[:offset], options[:limit]
+                Cc::Api::Presentor::CSVer.to_csv result, options[:csv], options[:offset], options[:limit] if options[:csv]
               end
             end
           rescue Cc::Api::Util::LicenseKeysException

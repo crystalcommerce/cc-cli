@@ -169,12 +169,13 @@ To choose columns/json keys to display:
 
 Other available options:
 
-    [--offset=N]   # Offset of the starting row to be displayed. Nothing is displayed when out of bounds.
-    [--limit=N]    # Limit of rows to be displayed.
-    [--colw=N]     # Width of every column to be displayed.
-    [--colp=N]     # Padding of every cell to be displayed.
-    [--json]       # Prints the JSON response body instead.
-    [--page=N]     # Page number of the response.
+    [--offset=N]            # Offset of the starting row to be displayed. Nothing is displayed when out of bounds.
+    [--limit=N]             # Limit of rows to be displayed.
+    [--colw=N]              # Width of every column to be displayed.
+    [--colp=N]              # Padding of every cell to be displayed.
+    [--json]                # Prints the JSON response body instead.
+    [--page=N]              # Page number of the response.
+    [--csv=CSV_FILE_PATH]   # Print out the result into a csv file. Columns are separated by comma
 
 ## TODO
 

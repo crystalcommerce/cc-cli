@@ -135,13 +135,14 @@ module Cc
         protected
 
         def perform args
+
           action = args[:action]
+
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
             response = Cc::Api::Http::HttpRequestor.request_for_json param 
-            puts "response time: #{response[:response_time]}"
             
-            if options[:json]
+            if options[:json] 
               puts JSON.pretty_generate response[:body]
             else
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
@@ -149,6 +150,7 @@ module Cc
               if options[:keychains]
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
               else
+                puts "response time: #{response[:response_time]}"
                 begin
                   result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
                 rescue
@@ -159,10 +161,8 @@ module Cc
                 Cc::Api::Presentor::CSVer.to_csv result, options[:csv], options[:offset], options[:limit] if options[:csv]
               end
             end
-          rescue Cc::Api::Util::LicenseKeysException
-            puts 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"'
-          rescue Cc::Api::Http::ServerProblemException
-            puts "There's a problem with the server. Server response not expected."
+          rescue Exception => e
+            puts e.message
           end
         end
       end

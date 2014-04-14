@@ -13,7 +13,7 @@ module Cc
   module Api
     module Explorer
       class CLI < Thor
-        DEFAULT_COLS = 
+        DEFAULT_COLS =
           {
             "lattice-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
             "lattice-stores" => ["store.name", "store.state", "store.url"],
@@ -52,12 +52,12 @@ module Cc
         option :json, :type => :boolean, :desc => DESC["json"]
         option :id, :desc => DESC["id"]
         option :skus, :desc => DESC["skus"]
-        desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]", 
+        desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]",
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
         def lattice subcommand
-          case subcommand 
+          case subcommand
           when "products"
-            # { product : { variants : { store_variants : [ { store_variant : { ... } } ] } } } 
+            # { product : { variants : { store_variants : [ { store_variant : { ... } } ] } } }
             args = {:action => "lattice-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
             self.perform args
           when "stores"
@@ -83,10 +83,10 @@ module Cc
         option :json, :type => :boolean, :desc => DESC["json"]
         option :page, :type => :numeric, :desc => DESC["page"]
 
-        desc "catalog [products] | [product_types] | [stores] | [categories]", 
-          "This API will give access to read and write to the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
+        desc "catalog [products] | [product_types] | [stores] | [categories]",
+          "This API will give access to read the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
         def catalog subcommand
-          case subcommand 
+          case subcommand
           when "products"
             # { products : [ { ... }  }
             args = {:action => "catalog-products", :params => { :page => options[:page] || 1 } }
@@ -140,9 +140,9 @@ module Cc
 
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
-            response = Cc::Api::Http::HttpRequestor.request_for_json param 
-            
-            if options[:json] 
+            response = Cc::Api::Http::HttpRequestor.request_for_json param
+
+            if options[:json]
               puts JSON.pretty_generate response[:body]
             else
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]

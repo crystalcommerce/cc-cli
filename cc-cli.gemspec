@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cc/api/explorer/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "cc-api-explorer"
+  spec.name          = "cc-cli"
   spec.version       = Cc::Api::Explorer::VERSION
   spec.authors       = ["Neil Marion dela Cruz"]
   spec.email         = ["nmfdelacruz@gmail.com"]

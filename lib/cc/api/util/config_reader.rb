@@ -1,40 +1,38 @@
 module Cc
   module Api
     module Util
-      class LicenseKeysException < Exception 
+      class LicenseKeysException < Exception
       end
 
       class ConfigReader
+        License = Struct.new(:username, :password)
 
-        def self.license
-          begin
-            self.parse_keys self.get_keys
-          rescue 
-            self.raise_license_key_exception
+        class << self
+          def license
+            License.new(*get_keys)
+          end
+
+        private
+          def get_keys
+            login = ENV.fetch("CC_API_LOGIN")
+            key   = ENV.fetch("CC_API_KEY")
+            raise_license_key_exception if login.empty?
+            raise_license_key_exception if key.empty?
+            [login, key]
+          rescue KeyError
+            raise_license_key_exception
+          end
+
+          def raise_license_key_exception
+            raise LicenseKeysException, <<-EOS
+License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add these lines:
+
+export CC_API_LOGIN=<login>
+export CC_API_KEY=<key>
+            EOS
           end
         end
-
-        protected
-
-        def self.get_keys
-          ENV['CC_API_KEY']
-        end
-
-        def self.parse_keys key
-          raise self.raise_license_key_exception unless key.match /^[a-z]*:[0-9a-zA-Z]*$/
-          pair = key.split(':')
-          {:username => pair[0], :password => pair[1]}
-        end
-
-        def self.raise_license_key_exception
-          raise LicenseKeysException, 'License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add this line "export CC_API_KEYS=<ssologin>:<key>"' 
-        end
-
-        def self.path
-          File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'config', 'cc_api_keys.yml')
-        end    
       end
     end
   end
 end
-

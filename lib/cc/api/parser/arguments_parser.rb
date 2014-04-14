@@ -29,7 +29,7 @@ module Cc
           end
         end
 
-        protected
+        private
 
         def self.build_action_url args, res
           case args[:action]

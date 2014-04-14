@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe Cc::Api::Http::HttpRequestor do
+  let(:license) { double("License", :username => 'abc', :password => "123")}
+
   before(:each) do
-    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return "abc:123"
+    Cc::Api::Util::ConfigReader.stub(:license).and_return(license)
   end
 
   context "returns valid JSON response for a post request" do
@@ -13,7 +15,7 @@ describe Cc::Api::Http::HttpRequestor do
         with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
         to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-      result = Cc::Api::Http::HttpRequestor.request_for_json param
+      result = subject.request_for_json param
       result.should_not eq nil
 
     end
@@ -23,10 +25,10 @@ describe Cc::Api::Http::HttpRequestor do
     let(:param) { {request: { url: "https://abc:123@api.crystalcommerce.com/v1/lattice/offers", :body=>{"search"=>{"skus"=>{"201750"=>["123abc", "456def"]}}}, method: "POST"} } }
 
     it "if license keys are not set properly" do
-      allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return ""
+      Cc::Api::Util::ConfigReader.stub(:license).and_raise(Cc::Api::Util::LicenseKeysException)
       expect {
-        Cc::Api::Http::HttpRequestor.request_for_json param
-      }.to raise_error Cc::Api::Util::LicenseKeysException
+        subject.request_for_json param
+      }.to raise_error(Cc::Api::Util::LicenseKeysException)
     end
 
     it "if not enough privileges" do
@@ -35,7 +37,7 @@ describe Cc::Api::Http::HttpRequestor do
         to_return(:status => 401, :body => "", :headers => {"Content-Type" => "application/json"})
 
       expect {
-        Cc::Api::Http::HttpRequestor.request_for_json param
+        subject.request_for_json param
       }.to raise_error Cc::Api::Http::UnauthorizedAccessException
     end
 
@@ -45,7 +47,7 @@ describe Cc::Api::Http::HttpRequestor do
         to_return(:status => 500, :body => "", :headers => {"Content-Type" => "application/json"})
 
       expect {
-        Cc::Api::Http::HttpRequestor.request_for_json param
+        subject.request_for_json param
       }.to raise_error Cc::Api::Http::ServerProblemException
     end
   end

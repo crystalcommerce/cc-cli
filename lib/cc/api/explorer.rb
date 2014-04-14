@@ -54,20 +54,20 @@ module Cc
         option :skus, :desc => DESC["skus"]
         desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]",
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
-        def lattice subcommand
+        def lattice(subcommand)
           case subcommand
           when "products"
             # { product : { variants : { store_variants : [ { store_variant : { ... } } ] } } }
             args = {:action => "lattice-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
-            self.perform args
+            perform(args)
           when "stores"
             # { [ { store : { ... } } ] }
             args = {:action => "lattice-stores"}
-            self.perform args
+            perform(args)
           when "offers"
             # { <PRODUCT ID> : [ { ... } ] }
             args = {:action => "lattice-offers", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
-            self.perform args
+            perform(args)
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
@@ -85,24 +85,24 @@ module Cc
 
         desc "catalog [products] | [product_types] | [stores] | [categories]",
           "This API will give access to read the catalog of products. This includes what products could be sold but doesn't include prices or quantities, which are stored in the Market Data APIs."
-        def catalog subcommand
+        def catalog(subcommand)
           case subcommand
           when "products"
             # { products : [ { ... }  }
             args = {:action => "catalog-products", :params => { :page => options[:page] || 1 } }
-            self.perform args
+            perform(args)
           when "product_types"
             # { products : [ { ... } ] }
             args = {:action => "catalog-product_types", :params => { :page => options[:page] || 1 } }
-            self.perform args
+            perform(args)
           when "stores"
             # { stores : [ { ... } ] }
             args = {:action => "catalog-stores"}
-            self.perform args
+            perform(args)
           when "categories"
             # { categories : [ { ... } ] }
             args = {:action => "catalog-categories", :params => { :page => options[:page] || 1} }
-            self.perform args
+            perform(args)
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
@@ -121,31 +121,31 @@ module Cc
         option :store, :desc => DESC["store"]
 
         desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
-        def store subcommand
+        def store(subcommand)
           case subcommand
           when "products"
             # { paginated_collection : { entries : [ { product: { ... } } ] } }
             args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store], :page => options[:page] || 1} }
-            self.perform args
+            perform(args)
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception
           end
         end
 
-        protected
+        private
 
-        def perform args
+        def perform(args)
 
           action = args[:action]
 
           begin
             param = Cc::Api::Parser::ArgumentsParser.parse args
-            response = Cc::Api::Http::HttpRequestor.request_for_json param
+            response = http_requestor.request_for_json param
 
             if options[:json]
               puts JSON.pretty_generate response[:body]
             else
-              target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain args[:action]
+              target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain action
               array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
               if options[:keychains]
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
@@ -154,16 +154,20 @@ module Cc
                 begin
                   result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
                 rescue
-                  result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[args[:action]]
+                  result = Cc::Api::Parser::JsonParser.vanilla_reduce array, DEFAULT_COLS[action]
                 end
                 tabler = Cc::Api::Presentor::Tabler.new
                 tabler.present result, options[:colw], options[:colp], options[:offset], options[:limit]
                 Cc::Api::Presentor::CSVer.to_csv result, options[:csv], options[:offset], options[:limit] if options[:csv]
               end
             end
-          rescue Exception => e
+          rescue => e
             puts e.message
           end
+        end
+
+        def http_requestor
+          Cc::Api::Http::HttpRequestor.new
         end
       end
     end

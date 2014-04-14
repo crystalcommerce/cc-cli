@@ -2,8 +2,10 @@
 require 'spec_helper'
 
 describe Cc::Api::Explorer::CLI do
+  let(:license) { double("License", :username => 'abc', :password => "123")}
+
   before(:each) do
-    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return "abc:123"
+    Cc::Api::Util::ConfigReader.stub(:license).and_return(license)
   end
 
   let(:cc) { cc = Cc::Api::Explorer::CLI.new }

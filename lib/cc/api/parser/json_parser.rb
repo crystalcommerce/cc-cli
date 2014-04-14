@@ -25,7 +25,7 @@ module Cc
           result
         end 
 
-        protected
+        private
 
         def self.is_numeric? i
           /^\d+$/ === i

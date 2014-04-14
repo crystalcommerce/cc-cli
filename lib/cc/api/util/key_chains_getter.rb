@@ -29,7 +29,7 @@ module Cc
           end
         end
 
-        protected
+        private
 
         def self.key_chains elements, string
           return unless elements

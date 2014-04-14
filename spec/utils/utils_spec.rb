@@ -36,28 +36,48 @@ describe Cc::Api::Util::KeyChainsGetter do
 end
 
 describe Cc::Api::Util::ConfigReader do
-  it "should return the path of the config file from the CC_API_KEY from user's environment" do
-    Cc::Api::Util::ConfigReader.path.should match /..\/..\/..\/config\/cc_api_keys.yml/
+  let(:login) { 'abc' }
+  let(:key) { '123' }
+
+  around(:each) do |example|
+    old_login = ENV['CC_API_LOGIN']
+    old_key   = ENV['CC_API_KEY']
+
+    begin
+      ENV['CC_API_LOGIN'] = login
+      ENV['CC_API_KEY']   = key
+      example.run
+    ensure
+      ENV['CC_API_LOGIN'] = old_login
+      ENV['CC_API_KEY']   = old_key
+    end
   end
 
   it "should return license key hash based from the CC_API_KEY from user's environment" do
-    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return "abc:123"
-    Cc::Api::Util::ConfigReader.license.should eq({:username => "abc", :password => "123"})
+    license = Cc::Api::Util::ConfigReader.license
+    expect(license.username).to eq('abc')
+    expect(license.password).to eq('123')
   end
 
-  it "should raise error if CC_API_KEY from user's environment is not found" do
-    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return nil
-    expect {
-      Cc::Api::Util::ConfigReader.license
-    }.to raise_error Cc::Api::Util::LicenseKeysException 
+  context "env vars not set" do
+    let(:login) { nil }
+    let(:key) { nil }
+
+    it "should raise error if CC_API_KEY from user's environment is not found" do
+      expect {
+        Cc::Api::Util::ConfigReader.license
+      }.to raise_error Cc::Api::Util::LicenseKeysException 
+    end
   end
 
-  it "should raise error if CC_API_KEY is blank" do
-    allow(Cc::Api::Util::ConfigReader).to receive(:get_keys).and_return ""
-    expect {
-      Cc::Api::Util::ConfigReader.license
-    }.to raise_error Cc::Api::Util::LicenseKeysException 
+  context "keys present but blank" do
+    let(:login) { "" }
+    let(:key) { "" }
+
+    it "should raise error if CC_API_KEY is blank" do
+      expect {
+        Cc::Api::Util::ConfigReader.license
+      }.to raise_error Cc::Api::Util::LicenseKeysException 
+    end
   end
 end
-
-

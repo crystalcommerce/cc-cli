@@ -25,19 +25,26 @@ To view help:
 The license key pair `<ssologin>` and `<key>` are basically just basic auth username and password respectively.
 To obtain a license key, contact: contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
 
-Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file:
+Add these lines in your ~/.bashrc (linux) or ~/.profile (mac) file:
 
-    export CC_API_KEY=<ssologin>:<key>
+    export CC_API_LOGIN=<login>
+    export CC_API_KEY=<key>
 
 If you are working in a project, you can also install the
 [dotenv](http://rubygems.org/gems/dotenv) gem and put a .env file in
-the working directory. You can then run the program with `dotenv
-cc-cli`.
+the working directory that looks like:
+
+    CC_API_LOGIN=<login>
+    CC_API_KEY=<key>
+
+You can then run the program with `dotenv cc-cli`. This approach will
+be advantageous if you don't want to edit your user's shell config to
+use this tool.
 
 These are the available commands:
 
     $ cc-cli catalog [products] | [product_types] | [stores] | [categories]
-    $ cc-cli help [COMMAND]
+    $ cc-cli help [COMMND]
     $ cc-cli lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]
     $ cc-cli store [products --token <access token> --store <store name>]
 

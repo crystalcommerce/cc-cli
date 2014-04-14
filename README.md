@@ -25,9 +25,14 @@ To view help:
 The license key pair `<ssologin>` and `<key>` are basically just basic auth username and password respectively.
 To obtain a license key, contact: contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
 
-Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file
+Add this line in your ~/.bashrc (linux) or ~/.profile (mac) file:
 
     export CC_API_KEY=<ssologin>:<key>
+
+If you are working in a project, you can also install the
+[dotenv](http://rubygems.org/gems/dotenv) gem and put a .env file in
+the working directory. You can then run the program with `dotenv
+cc-cli`.
 
 These are the available commands:
 
@@ -176,10 +181,6 @@ Other available options:
     [--json]                # Prints the JSON response body instead.
     [--page=N]              # Page number of the response.
     [--csv=CSV_FILE_PATH]   # Print out the result into a csv file. Columns are separated by comma
-
-## TODO
-
-`--csv` option that exports the output into a csv file
 
 ## ISSUES
 

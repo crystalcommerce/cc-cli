@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Cc::Api::Explorer::CLI do
@@ -9,8 +10,9 @@ describe Cc::Api::Explorer::CLI do
 
   context "lattice" do
     let(:skus) { ["123abc", "456def"] }
+
     context "products" do
-      let(:expected_print_substring) {"┃      theendgames               ┃      0                         ┃      USD                       ┃"}
+      let(:expected_table_row) { %w[theendgames 0 USD] }
       let(:id) { "123" }
       let(:args) { "--id #{id} --sku #{skus}" }
 
@@ -30,17 +32,17 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
 
         it "returns something if arguments are correct for multiple skus" do
-          
+
           printed = capture_stdout do
             args = ["lattice", "products", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
 
@@ -63,7 +65,7 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to_not match expected_print_substring
+          expect(printed).to_not have_ascii_table_row(expected_table_row)
         end
 
         it "returns blank if nil json was returned" do
@@ -76,24 +78,24 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to_not match expected_print_substring
+          expect(printed).to_not have_ascii_table_row(expected_table_row)
         end
       end
     end
 
     context "stores" do
-      let(:expected_print_substring) { "┃      Lettie Traffanstedt'      ┃                                ┃                                ┃" }
+      let(:expected_table_row) { ["Lettie Traffanstedt'", "", ""]}
       context "something is returned" do
         it "returns something" do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-          printed = capture_stdout do 
+          printed = capture_stdout do
             args = ["lattice", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
 
@@ -102,20 +104,21 @@ describe Cc::Api::Explorer::CLI do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
-          printed = capture_stdout do 
+          printed = capture_stdout do
             args = ["lattice", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to_not match expected_print_substring
+          expect(printed).to_not have_ascii_table_row(expected_table_row)
         end
       end
     end
 
     context "offers" do
-      let(:expected_print_substring) { "┃      Lettie Traffanstedt'      ┃      109                       ┃      526                       ┃" }
+      let(:expected_table_row) { ["Lettie Traffanstedt'", '109', '526']}
       context "something is returned" do
         it "returns something" do
+          pending
           stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/lattice/offers").
             with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
             to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
@@ -125,15 +128,15 @@ describe Cc::Api::Explorer::CLI do
               options = Cc::Api::Explorer::CLI.start(args)
             #end
 
-            #expect(printed).to match expected_print_substring
+            #expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end
   end
-  
+
   context "catalog" do
     context "products" do
-      let(:expected_print_substring) { "┃      Aven Cloudchaser          ┃                                ┃      0.0                       ┃" }
+      let(:expected_table_row) { ['Aven Cloudchaser', '', '0.0']}
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/products?page=1").
@@ -141,19 +144,19 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns something if arguments are correct" do
-          
+
           printed = capture_stdout do
             args = ["catalog", "products"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end
 
     context "product_types" do
-      let(:expected_print_substring) { "┃      Cthulhu Tech              ┃      138                       ┃      1.0                       ┃" }
+      let(:expected_table_row) { ['Cthulhu Tech', '138', '1.0']}
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/product_types?page=1").
@@ -166,13 +169,13 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end
 
     context "stores" do
-      let(:expected_print_substring) { "┃      Asgard Keep               ┃      62864                     ┃      http://asgardkeep.co      ┃" }
+      let(:expected_table_row) { ['Asgard Keep', '62864', 'http://asgardkeep.co'] }
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/stores").
@@ -185,13 +188,13 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end
 
     context "categories" do
-      let(:expected_print_substring) { "┃      Deathknell                ┃      deathknell                ┃                                ┃" }
+      let(:expected_table_row) { ['Deathknell', 'deathknell', '']}
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/catalog/categories?page=1").
@@ -204,7 +207,7 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end
@@ -212,7 +215,7 @@ describe Cc::Api::Explorer::CLI do
 
   context "store" do
     context "products" do
-      let(:expected_print_substring) { "┃      ashnods_cylix             ┃      0.0037                    ┃                                ┃" }
+      let(:expected_table_row) { ['ashnods_cylix', '0.0037', '']}
       context "something is returned" do
         before(:each) do
           stub_request(:get, "https://abc-api.crystalcommerce.com/v1/products?page=2").with(:headers => {'Authorization' => 'OAuth 123'}).
@@ -225,7 +228,7 @@ describe Cc::Api::Explorer::CLI do
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
-          expect(printed).to match expected_print_substring
+          expect(printed).to have_ascii_table_row(expected_table_row)
         end
       end
     end

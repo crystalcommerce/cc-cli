@@ -1,4 +1,4 @@
-tests:
+test:
   override:
     - rvm use --default 1.9.3
     - bundle exec rspec

@@ -1,0 +1,28 @@
+lattice:
+  products:
+    url: https://api.crystalcommerce.com/v1/lattice/products
+    target_key_chain: "product.variants.FIRST.variant.store_variants"
+  stores:
+    url: https://api.crystalcommerce.com/v1/lattice/stores
+    target_key_chain: ""
+  offers:
+    url: https://api.crystalcommerce.com/v1/lattice/offers
+    method: POST
+    target_key_chain: "PRODUCT_ID"
+catalog:
+  products:
+    url: https://api.crystalcommerce.com/v1/catalog/products
+    target_key_chain: "products"
+  product_types:
+    url: https://api.crystalcommerce.com/v1/catalog/product_types
+    target_key_chain: "product_types"
+  stores:
+    url: https://api.crystalcommerce.com/v1/catalog/stores
+    target_key_chain: "stores"
+  categories:
+    url: https://api.crystalcommerce.com/v1/catalog/categories 
+    target_key_chain: "categories"
+store:
+  products:  
+    url: https://*-api.crystalcommerce.com/v1/products
+    target_key_chain: "paginated_collection.entries"

@@ -1,6 +1,6 @@
 # CrystalCommerce CLI
 
-This is a command line client for exploring Crystal Commerce APIs
+This is a command line client for exploring CrystalCommerce APIs
 
 ## Installation
 

@@ -6,11 +6,11 @@ require 'cc/api/explorer/version'
 Gem::Specification.new do |spec|
   spec.name          = "cc-cli"
   spec.version       = Cc::Api::Explorer::VERSION
-  spec.authors       = ["Neil Marion dela Cruz"]
-  spec.email         = ["nmfdelacruz@gmail.com"]
-  spec.summary       = %q{Crystal Commerce API Explorer}
-  spec.description   = %q{This is a command line client for exploring Crystal Commerce APIs}
-  spec.homepage      = ""
+  spec.authors       = ["Neil Marion dela Cruz", "Michael Xavier"]
+  spec.email         = ["developers@crystalcommerce.com"]
+  spec.summary       = %q{CrystalCommerce API Explorer}
+  spec.description   = %q{This is a command line client for exploring CrystalCommerce APIs}
+  spec.homepage      = "https://github.com/crystalcommerce/cc-cli"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

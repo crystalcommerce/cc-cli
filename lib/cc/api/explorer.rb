@@ -38,7 +38,7 @@ module Cc
             "skus" => "SKUs separated by ',' if more than one",
             "page" => "Page number of the response",
             "token" => "OAuth Token",
-            "store" => "Store name (Crystal Commerce Client)",
+            "store" => "Store name (CrystalCommerce Client)",
             "csv" => "Print out the result into a csv file. Columns are separated by comma"
           }
 

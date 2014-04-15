@@ -27,8 +27,8 @@ module Cc
 
         DESC =
           {
-            "cols" => "JSON 'key chains' to display as columns to the output table. To determine 'key chains' for a selected command use --keychains",
-            "keychains" => "Output the 'key chains' for a command",
+            "cols" => "Columns to display to the output table. To determine the 'available columns' for a selected command use --available_cols",
+            "available_cols" => "Output the available columns for output for a command",
             "offset" => "Offset of the starting row to be displayed. Nothing is displayed when out of bounds",
             "limit" => "Limit of rows to be displayed",
             "colw" => "Width of every column to be displayed",
@@ -44,7 +44,7 @@ module Cc
 
         option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
-        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :available_cols, :type => :boolean, :desc => DESC["available_cols"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
         option :limit, :type => :numeric, :desc => DESC["limit"]
         option :colw, :type => :numeric, :desc => DESC["colw"]
@@ -75,7 +75,7 @@ module Cc
 
         option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
-        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :available_cols, :type => :boolean, :desc => DESC["available_cols"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
         option :limit, :type => :numeric, :desc => DESC["limit"]
         option :colw, :type => :numeric, :desc => DESC["colw"]
@@ -110,7 +110,7 @@ module Cc
 
         option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
-        option :keychains, :type => :boolean, :desc => DESC["keychains"]
+        option :available_cols, :type => :boolean, :desc => DESC["available_cols"]
         option :offset, :type => :numeric, :desc => DESC["offset"]
         option :limit, :type => :numeric, :desc => DESC["limit"]
         option :colw, :type => :numeric, :desc => DESC["colw"]
@@ -147,8 +147,8 @@ module Cc
             else
               target = Cc::Api::Parser::ArgumentsMapper.get_target_key_chain action
               array = Cc::Api::Util::KeyChainsGetter.get_target_array response[:body], target, options[:id]
-              if options[:keychains]
-                Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, ""
+              if options[:available_cols]
+                Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, "", Cc::Api::Parser::ArgumentsMapper.get_ignored_key_chain(action)
               else
                 puts "response time: #{response[:response_time]}"
                 begin

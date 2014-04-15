@@ -50,11 +50,11 @@ These are the available commands:
 
 To choose columns/json keys to display:
 
-  Display the available 'key-chains' for a given command. Say for example `$ cc-cli catalog products`:
+  Display the available columns for a given command. Say for example `$ cc-cli catalog products`:
 
-    $ cc-cli catalog products --keychains
+    $ cc-cli catalog products --available-cols
 
-    available key-chains
+    available columns
     ====================
     id
     name
@@ -65,15 +65,7 @@ To choose columns/json keys to display:
     asin
     category_id
     product_type_id
-    descriptors.Pow/Tgh
-    descriptors.Name
-    descriptors.Color
-    descriptors.Cost
-    descriptors.Rarity
-    descriptors.Card Text
-    descriptors.Finish
-    descriptors.Card Type
-    descriptors.Set Name
+    descriptors.*
     photo.content_type
     photo.urls.medium
     photo.urls.thumb
@@ -106,13 +98,13 @@ To choose columns/json keys to display:
 
   When `--cols` is not used, the default `--cols` values will then be selected.
 
-  This is also capable of displaying values from arrays within the JSON object from the API response. For example let's first print `$ cc-cli catalog product_types` 'key-chains':
+  This is also capable of displaying values from arrays within the JSON object from the API response. For example let's first print `$ cc-cli catalog product_types` available columns:
 
-    $ cc-cli catalog product_types --keychains
+    $ cc-cli catalog product_types --available-cols
     GET https://api.crystalcommerce.com/v1/catalog/product_types?page=1
     response time: 1.654095542
 
-    available key-chains
+    available columns
     ====================
     id
     name
@@ -123,7 +115,7 @@ To choose columns/json keys to display:
     variant_dimensions.<index>.default_option_id
     variant_dimensions.<index>.options.<index>.value
     variant_dimensions.<index>.options.<index>.code
-    descriptors.<index>.name
+    descriptors.<index>.*
 
   The `<index>` must be replaced by an integer:
 
@@ -191,4 +183,4 @@ Other available options:
 
 ## ISSUES
 
-There is going to be an issue when trying to include as a `--cols` value a 'key-chain' that has a whitespace within its string. E.g. "descriptors.Set Name" for `$ cc-cli catalog products`
+There is going to be an issue when trying to include as a `--cols` value a 'available-cols' that has a whitespace within its string. E.g. "descriptors.Set Name" for `$ cc-cli catalog products`

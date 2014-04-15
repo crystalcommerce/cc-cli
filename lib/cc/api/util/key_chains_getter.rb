@@ -4,9 +4,9 @@ module Cc
       class KeyChainsGetter
         @@key_chains = []
 
-        def self.get_key_chains elements, string
-          puts "\navailable key-chains\n===================="
-          self.key_chains elements, string
+        def self.get_key_chains elements, string, ignores=nil
+          puts "\navailable columns\n===================="
+          self.key_chains elements, string, ignores
           puts "\nUSAGE:"
           puts "--cols #{[@@key_chains.sample, @@key_chains.sample, @@key_chains.sample].join(',')}"
         end
@@ -31,24 +31,38 @@ module Cc
 
         private
 
-        def self.key_chains elements, string
+        def self.key_chains elements, string, ignores=nil
           return unless elements
 
           if elements.class == Hash
             elements.each do |key, array|
-              self.key_chains array, string + key.to_s + '.'
+              self.key_chains array, string + key.to_s + '.', ignores
             end
           elsif elements.class == Array
             begin
               elements.first.each do |key, array|
-                self.key_chains array, string + '<index>.' + key.to_s + '.'
+                self.key_chains array, string + '<index>.' + key.to_s + '.', ignores
               end
             rescue
               return
             end
           else
-            puts string[0...-1]
-            @@key_chains << string[0...-1]
+            if ignores
+              ignores.each do |ignore|
+                if string[0...-1].match ignore
+                  unless @@key_chains.include? ignore + '.*'
+                    puts ignore + '.*' 
+                    @@key_chains << ignore + '.*'
+                  end
+                else
+                  @@key_chains << string[0...-1]
+                  puts string[0...-1]
+                end
+              end
+            else
+              puts string[0...-1]
+              @@key_chains << string[0...-1]
+            end
           end
         end
 

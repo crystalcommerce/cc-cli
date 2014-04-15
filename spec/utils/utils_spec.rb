@@ -10,7 +10,7 @@ describe Cc::Api::Util::KeyChainsGetter do
       res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash, ""
     end
 
-    printed.should match "\navailable key-chains\n====================\na.b.d.e.g\na.b.d.f\na.c\n"
+    printed.should match "\navailable columns\n====================\na.b.d.e.g\na.b.d.f\na.c\n"
   end
 
   it "returns the key chains of a given hash with array of hashes as an element" do
@@ -18,9 +18,16 @@ describe Cc::Api::Util::KeyChainsGetter do
       res = Cc::Api::Util::KeyChainsGetter.get_key_chains hash_with_array, ""
     end
 
-    printed.should match "\navailable key-chains\n====================\na.b.<index>.c\n"
+    printed.should match "\navailable columns\n====================\na.b.<index>.c\n"
   end
 
+  it "ignores a keychain subset and will put a '*' as a postfix" do
+    printed = capture_stdout do
+      res = Cc::Api::Util::KeyChainsGetter.get_key_chains(hash, "", ["a.b.d"])
+    end
+
+    printed.should match "\navailable columns\n====================\na.b.d.\\*\na.c\n"
+  end
 
   it "returns the target array" do
     res = Cc::Api::Util::KeyChainsGetter.get_target_array hash_with_array, "a.b"

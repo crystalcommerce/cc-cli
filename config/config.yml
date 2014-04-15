@@ -13,9 +13,11 @@ catalog:
   products:
     url: https://api.crystalcommerce.com/v1/catalog/products
     target_key_chain: "products"
+    ignores: ["descriptors"]
   product_types:
     url: https://api.crystalcommerce.com/v1/catalog/product_types
     target_key_chain: "product_types"
+    ignores: ["descriptors.<index>"]
   stores:
     url: https://api.crystalcommerce.com/v1/catalog/stores
     target_key_chain: "stores"
@@ -26,3 +28,4 @@ store:
   products:  
     url: https://*-api.crystalcommerce.com/v1/products
     target_key_chain: "paginated_collection.entries"
+    ignores: ["product.descriptors"]

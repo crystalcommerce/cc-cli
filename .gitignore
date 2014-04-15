@@ -17,3 +17,4 @@ tmp
 *.sw*
 null.txt
 *.gem
+.env

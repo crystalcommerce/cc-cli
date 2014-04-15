@@ -12,7 +12,7 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as (not yet available as of the moment):
+Or install it yourself as a gem:
 
     $ gem install cc-cli
 
@@ -23,7 +23,7 @@ To view help:
     $ cc-cli
 
 The license key pair `<ssologin>` and `<key>` are basically just basic auth username and password respectively.
-To obtain a license key, contact: contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
+To obtain a license key, contact: Jerad Ellison or call (206) 274-7437 Ext. 3.
 
 Add these lines in your ~/.bashrc (linux) or ~/.profile (mac) file:
 

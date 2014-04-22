@@ -3,10 +3,10 @@ require 'httparty'
 module Cc
   module Api
     module Http
-      class ServerProblemException < Exception
+      class ServerProblemException < StandardError
       end
 
-      class UnauthorizedAccessException < Exception
+      class UnauthorizedAccessException < StandardError
       end
 
       class HttpRequestor

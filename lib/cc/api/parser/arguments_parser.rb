@@ -3,7 +3,7 @@ require 'cc/api/parser/arguments_mapper'
 module Cc
   module Api
     module Parser
-      class CLIArgumentsException < Exception 
+      class CLIArgumentsException < StandardError
       end
 
       class ArgumentsParser

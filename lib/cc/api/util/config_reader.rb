@@ -1,7 +1,7 @@
 module Cc
   module Api
     module Util
-      class LicenseKeysException < Exception
+      class LicenseKeysException < StandardError
       end
 
       class ConfigReader
@@ -16,8 +16,7 @@ module Cc
           def get_keys
             login = ENV.fetch("CC_API_LOGIN")
             key   = ENV.fetch("CC_API_KEY")
-            raise_license_key_exception if login.empty?
-            raise_license_key_exception if key.empty?
+            raise_license_key_exception if login.empty? || key.empty?
             [login, key]
           rescue KeyError
             raise_license_key_exception

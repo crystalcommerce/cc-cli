@@ -7,7 +7,7 @@ module Cc
       end
 
       class ArgumentsParser
-        ERRORS = {'cli_arguments_exception' => "Error. Please run 'cc' for a list of available commands and their corresponding usage"}
+        ERRORS = {'cli_arguments_exception' => "Error. Please run 'cc-cli' for a list of available commands and their corresponding usage"}
 
         def self.parse args
           unless Cc::Api::Parser::ArgumentsMapper::get_url(args[:action]).nil?

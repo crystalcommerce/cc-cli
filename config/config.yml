@@ -1,12 +1,12 @@
-lattice:
+market_data:
   products:
-    url: https://api.crystalcommerce.com/v1/lattice/products
+    url: https://api.crystalcommerce.com/v1/market_data/products
     target_key_chain: "product.variants.FIRST.variant.store_variants"
   stores:
-    url: https://api.crystalcommerce.com/v1/lattice/stores
+    url: https://api.crystalcommerce.com/v1/market_data/stores
     target_key_chain: ""
   offers:
-    url: https://api.crystalcommerce.com/v1/lattice/offers
+    url: https://api.crystalcommerce.com/v1/market_data/offers
     method: POST
     target_key_chain: "PRODUCT_ID"
 catalog:

@@ -7,27 +7,27 @@ describe Cc::Api::Parser::ArgumentsParser do
   end
 
   describe "parse" do
-    context "lattice" do
-      let(:url) { "https://api.crystalcommerce.com/v1/lattice/" }
+    context "market_data" do
+      let(:url) { "https://api.crystalcommerce.com/v1/market_data/" }
       let(:rand) { "123" }
 
       context "products" do
         let(:expected_result) { {request: {url: url + "products/" + rand + "?skus[]=" + rand } } }
-        let(:args) { { :action => "lattice-products", :params => { :id => rand, :skus => [ rand ] } } }
+        let(:args) { { :action => "market_data-products", :params => { :id => rand, :skus => [ rand ] } } }
 
         it_behaves_like "arguments parser returning expected result"
       end
 
       context "stores" do
         let(:expected_result) { {request: { url: url + "stores", :target_key_chain => "" } } }
-        let(:args) { {:action => "lattice-stores"} }
+        let(:args) { {:action => "market_data-stores"} }
 
         it_behaves_like "arguments parser returning expected result"
       end
 
       context "offers" do
         let(:expected_result) { {request: { url: url + "offers", :body=>{"search"=>{"skus"=>{"123"=>["123"]}}}, method: "POST"} } }
-        let(:args) { {:action => "lattice-offers", :params => { :id => rand, :skus => [rand] } } }
+        let(:args) { {:action => "market_data-offers", :params => { :id => rand, :skus => [rand] } } }
 
         it_behaves_like "arguments parser returning expected result"
       end

@@ -10,7 +10,7 @@ describe Cc::Api::Explorer::CLI do
 
   let(:cc) { cc = Cc::Api::Explorer::CLI.new }
 
-  context "lattice" do
+  context "market_data" do
     let(:skus) { ["123abc", "456def"] }
 
     context "products" do
@@ -20,17 +20,17 @@ describe Cc::Api::Explorer::CLI do
 
       context "something is returned" do
         before(:each) do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}").
-            to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/products/#{id}?skus[]=#{skus[0]}").
+            to_return(:status => 200, :body => MARKET_DATA_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
-            to_return(:status => 200, :body => LATTICE_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+            to_return(:status => 200, :body => MARKET_DATA_PRODUCTS_RESPONSE, :headers => {"Content-Type" => "application/json"})
         end
 
         it "returns something if arguments are correct" do
 
           printed = capture_stdout do
-            args = ["lattice", "products", "--id", "123", "--skus", "123abc"]
+            args = ["market_data", "products", "--id", "123", "--skus", "123abc"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -40,7 +40,7 @@ describe Cc::Api::Explorer::CLI do
         it "returns something if arguments are correct for multiple skus" do
 
           printed = capture_stdout do
-            args = ["lattice", "products", "--id", "123", "--skus", skus.join(',')]
+            args = ["market_data", "products", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -51,7 +51,7 @@ describe Cc::Api::Explorer::CLI do
       context "something is not returned" do
         it "returns an exception if arguments are not correct" do
           printed = capture_stdout do
-            args = ["lattice", "products", "wrong", "arguments"]
+            args = ["market_data", "products", "wrong", "arguments"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -59,11 +59,11 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns blank if blank variants was returned" do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => '{"product":{"product_id":201750,"variants":[]}}', :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do
-            args = ["lattice", "products", "--id", "123", "--skus", skus.join(',')]
+            args = ["market_data", "products", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -71,12 +71,12 @@ describe Cc::Api::Explorer::CLI do
         end
 
         it "returns blank if nil json was returned" do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/products/#{id}?skus[]=#{skus[0]}&skus[]=#{skus[1]}").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
 
           printed = capture_stdout do
-            args = ["latticeproducts", "--id", "123", "--skus", skus.join(',')]
+            args = ["market_dataproducts", "--id", "123", "--skus", skus.join(',')]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -89,11 +89,11 @@ describe Cc::Api::Explorer::CLI do
       let(:expected_table_row) { ["Lettie Traffanstedt'", "", ""]}
       context "something is returned" do
         it "returns something" do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
-            to_return(:status => 200, :body => LATTICE_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/stores").
+            to_return(:status => 200, :body => MARKET_DATA_STORES_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do
-            args = ["lattice", "stores"]
+            args = ["market_data", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -103,11 +103,11 @@ describe Cc::Api::Explorer::CLI do
 
       context "something is not returned" do
         it "returns nothing" do
-          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/lattice/stores").
+          stub_request(:get, "https://abc:123@api.crystalcommerce.com/v1/market_data/stores").
             to_return(:status => 200, :body => nil, :headers => {"Content-Type" => "application/json"})
 
           printed = capture_stdout do
-            args = ["lattice", "stores"]
+            args = ["market_data", "stores"]
             options = Cc::Api::Explorer::CLI.start(args)
           end
 
@@ -121,12 +121,12 @@ describe Cc::Api::Explorer::CLI do
       context "something is returned" do
         it "returns something" do
           pending
-          stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/lattice/offers").
+          stub_request(:post, "https://abc:123@api.crystalcommerce.com/v1/market_data/offers").
             with(:body => "{\"search\":{\"skus\":{\"201750\":[\"123abc\",\"456def\"]}}}", :headers => {"Content-Type" => "application/json"}).
-            to_return(:status => 200, :body => LATTICE_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
+            to_return(:status => 200, :body => MARKET_DATA_OFFERS_RESPONSE, :headers => {"Content-Type" => "application/json"})
 
             #printed = capture_stdout do
-              args = ["lattice", "offers", "--id", "201750", "--skus", skus.join(',')]
+              args = ["market_data", "offers", "--id", "201750", "--skus", skus.join(',')]
               options = Cc::Api::Explorer::CLI.start(args)
             #end
 

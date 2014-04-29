@@ -15,9 +15,9 @@ module Cc
       class CLI < Thor
         DEFAULT_COLS =
           {
-            "lattice-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
-            "lattice-stores" => ["store.name", "store.state", "store.url"],
-            "lattice-offers" => ["store.name", "buy_price.cents", "sell_price.cents"],
+            "market_data-products" => ["store_variant.store_name", "store_variant.qty", "store_variant.buy_price.money.currency"],
+            "market_data-stores" => ["store.name", "store.state", "store.url"],
+            "market_data-offers" => ["store.name", "buy_price.cents", "sell_price.cents"],
             "catalog-products" => ["name", "barcode", "weight"],
             "catalog-product_types" => ["name", "id", "default_weight"],
             "catalog-stores" => ["name", "postal_code", "url"],
@@ -52,21 +52,21 @@ module Cc
         option :json, :type => :boolean, :desc => DESC["json"]
         option :id, :desc => DESC["id"]
         option :skus, :desc => DESC["skus"]
-        desc "lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]",
+        desc "market_data [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by comma>] | [stores]",
               "The Market Data APIs track the Prices, Quantities, and similar data. It also indicates which stores in the CrystalCommerce in-network currently has those products for sale."
-        def lattice(subcommand)
+        def market_data(subcommand)
           case subcommand
           when "products"
             # { product : { variants : { store_variants : [ { store_variant : { ... } } ] } } }
-            args = {:action => "lattice-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
+            args = {:action => "market_data-products", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
             perform(args)
           when "stores"
             # { [ { store : { ... } } ] }
-            args = {:action => "lattice-stores"}
+            args = {:action => "market_data-stores"}
             perform(args)
           when "offers"
             # { <PRODUCT ID> : [ { ... } ] }
-            args = {:action => "lattice-offers", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
+            args = {:action => "market_data-offers", :params => {:id => options[:id], :skus => options[:skus].to_s.split(',') } }
             perform(args)
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception

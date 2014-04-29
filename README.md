@@ -37,7 +37,7 @@ These are the available commands:
 
     $ cc-cli catalog [products] | [product_types] | [stores] | [categories]
     $ cc-cli help [COMMND]
-    $ cc-cli lattice [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]
+    $ cc-cli market_data [products --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [offers --id <PRODUCT ID> --skus <PRODUCT SKUS separated by ','>] | [stores]
     $ cc-cli store [products --token <access token> --store <store name>]
 
 To choose columns/json keys to display:

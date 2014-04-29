@@ -12,7 +12,7 @@ module Cc
         def self.parse args
           unless Cc::Api::Parser::ArgumentsMapper::get_url(args[:action]).nil?
             if res = Cc::Api::Parser::ArgumentsMapper.map(args)
-              self.build_action_url args, res 
+              self.build_action_url args, res
             else
               self.raise_cli_arguments_exception
             end
@@ -33,17 +33,17 @@ module Cc
 
         def self.build_action_url args, res
           case args[:action]
-          when "lattice-products"
+          when "market_data-products"
             #TODO fix this
             { :request => { url: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') } }
-          when "lattice-stores"
+          when "market_data-stores"
             { :request => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])  }
-          when "lattice-offers"
-            { :request => { 
+          when "market_data-offers"
+            { :request => {
                 url: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url],
                 body: {"search" => {"skus" => {"#{res[:id]}" => res[:skus].collect{|x| x.to_s }}}},
                 method: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:method]
-              } 
+              }
             }
           when "catalog-products"
             { :request => { :url => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "?page=#{res[:page]}"  } }

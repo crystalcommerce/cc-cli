@@ -25,7 +25,7 @@ catalog:
     url: https://api.crystalcommerce.com/v1/catalog/categories 
     target_key_chain: "categories"
 store:
-  products:  
-    url: https://*-api.crystalcommerce.com/v1/products
+  products:
+    url: https://api.crystalcommerce.com/v1/stores/:db/products
     target_key_chain: "paginated_collection.entries"
     ignores: ["product.descriptors"]

@@ -37,7 +37,6 @@ module Cc
             "id" => "Product ID",
             "skus" => "SKUs separated by ',' if more than one",
             "page" => "Page number of the response",
-            "token" => "OAuth Token",
             "store" => "Store name (CrystalCommerce Client)",
             "csv" => "Print out the result into a csv file. Columns are separated by comma"
           }
@@ -117,15 +116,14 @@ module Cc
         option :colp, :type => :numeric, :desc => DESC["colp"]
         option :json, :type => :boolean, :desc => DESC["json"]
         option :page, :type => :numeric, :desc => DESC["page"]
-        option :token, :desc => DESC["token"]
         option :store, :desc => DESC["store"]
 
-        desc "store [products --token <access token> --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
+        desc "store [products --store <store name>]", "The Store Data API provides access to the data related to a single store whereas the Market Data API applies to all stores."
         def store(subcommand)
           case subcommand
           when "products"
             # { paginated_collection : { entries : [ { product: { ... } } ] } }
-            args = {:action => "store-products", :params => {:token => options[:token], :store => options[:store], :page => options[:page] || 1} }
+            args = {:action => "store-products", :params => {:store => options[:store], :page => options[:page] || 1} }
             perform(args)
           else
             Cc::Api::Parser::ArgumentsParser.raise_cli_arguments_exception

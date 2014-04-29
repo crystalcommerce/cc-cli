@@ -19,8 +19,6 @@ module Cc
                 :body => params[:request][:body].to_json,
                 :headers => { 'Content-Type' => 'application/json' }
             )
-          elsif params[:request][:token]
-            response_body = HTTParty.get(params[:request][:url], :headers => { "Authorization" => "OAuth #{params[:request][:token]}"})
           else
             response_body = HTTParty.get(params[:request][:url], :basic_auth => basic_auth)
           end

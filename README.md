@@ -4,15 +4,7 @@ This is a command line client for exploring CrystalCommerce APIs
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'cc-cli', :git => "git@github.com:crystalcommerce/cc-cli.git"
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as a gem:
+Install it:
 
     $ gem install cc-cli
 

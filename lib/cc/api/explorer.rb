@@ -148,7 +148,7 @@ module Cc
               if options[:available_cols]
                 Cc::Api::Util::KeyChainsGetter.get_key_chains array.first, "", Cc::Api::Parser::ArgumentsMapper.get_ignored_key_chain(action)
               else
-                puts "response time: #{response[:response_time]}"
+                puts "response time: %.3fs" % response[:response_time]
                 begin
                   result = Cc::Api::Parser::JsonParser.vanilla_reduce array, options[:cols].split(',')
                 rescue

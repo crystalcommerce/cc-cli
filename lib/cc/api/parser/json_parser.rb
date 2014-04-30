@@ -2,7 +2,7 @@ module Cc
   module Api
     module Parser
       class JsonParser
-        def self.vanilla_reduce array, cols
+        def self.vanilla_reduce(array, cols)
           result = []
 
           unless array.nil? 
@@ -23,11 +23,11 @@ module Cc
             end
           end
           result
-        end 
+        end
 
         private
 
-        def self.is_numeric? i
+        def self.is_numeric?(i)
           /^\d+$/ === i
         end
       end

@@ -7,9 +7,12 @@ module Cc
       end
 
       class ArgumentsParser
-        ERRORS = {'cli_arguments_exception' => "Error. Please run 'cc-cli' for a list of available commands and their corresponding usage"}
+        ERRORS = {
+          'cli_arguments_exception' => "Error. Please run 'cc-cli' for a list "\
+            "of available commands and their corresponding usage"
+        }
 
-        def self.parse args
+        def self.parse(args)
           unless Cc::Api::Parser::ArgumentsMapper::get_url(args[:action]).nil?
             if res = Cc::Api::Parser::ArgumentsMapper.map(args)
               self.build_action_url args, res
@@ -31,30 +34,48 @@ module Cc
 
         private
 
-        def self.build_action_url args, res
+        def self.build_action_url(args, res)
+          action = Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])
+
           case args[:action]
           when "market_data-products"
-            #TODO fix this
-            { :request => { url: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "/#{res[:id]}?" + res[:skus].collect{|x| "skus[]=#{x}" }.join('&') } }
-          when "market_data-stores"
-            { :request => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])  }
-          when "market_data-offers"
-            { :request => {
-                url: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url],
-                body: {"search" => {"skus" => {"#{res[:id]}" => res[:skus].collect{|x| x.to_s }}}},
-                method: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:method]
+            url = action[:url]
+            query = res[:skus].map{|x| "skus[]=#{x}" }.join('&')
+            {
+              request: {
+                url: "#{url}/#{res[:id]}?#{query}"
               }
             }
-          when "catalog-products"
-            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "?page=#{res[:page]}"  } }
-          when "catalog-product_types"
-            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "?page=#{res[:page]}" } }
-          when "catalog-stores"
-            { :request => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])  }
-          when "catalog-categories"
-            { :request => { :url => Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url] + "?page=#{res[:page]}" } }
+          when "market_data-stores", "catalog-stores"
+            {
+              request: action
+            }
+          when "market_data-offers"
+            {
+              request: {
+                url: action[:url],
+                method: action[:method],
+                body: {
+                  "search" => {
+                    "skus" => {
+                      "#{res[:id]}" => res[:skus].map(&:to_s)
+                    }
+                  }
+                }
+              }
+            }
+          when "catalog-products", "catalog-product_types", "catalog-categories"
+            {
+              request: {
+                url: action[:url] + "?page=#{res[:page]}"
+              }
+            }
           when "store-products"
-            { :request => { url: Cc::Api::Parser::ArgumentsMapper::get_url(args[:action])[:url].sub(':db', res[:store]) + "?page=#{res[:page]}" } }
+            {
+              request: {
+                url: action[:url].sub(':db', res[:store]) + "?page=#{res[:page]}"
+              }
+            }
           else
             nil
           end

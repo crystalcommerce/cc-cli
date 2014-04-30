@@ -7,7 +7,7 @@ module Cc
       class Tabler
         include CommandLineReporter
 
-        def present result, column_width, column_padding, offset, limit
+        def present(result, column_width, column_padding, offset, limit)
           unless result.empty?
             table :border => true do
               row do
@@ -30,7 +30,7 @@ module Cc
       end
 
       class CSVer
-        def self.to_csv result, file, offset, limit
+        def self.to_csv(result, file, offset, limit)
 
           CSV.open file, "wb" do |csv|
             csv << result.first.keys

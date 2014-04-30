@@ -4,14 +4,14 @@ module Cc
       class KeyChainsGetter
         @@key_chains = []
 
-        def self.get_key_chains elements, string, ignores=nil
+        def self.get_key_chains(elements, string, ignores=nil)
           puts "\navailable columns\n===================="
-          self.key_chains elements, string, ignores
+          self.key_chains(elements, string, ignores)
           puts "\nUSAGE:"
-          puts "--cols #{[@@key_chains.sample, @@key_chains.sample, @@key_chains.sample].join(',')}"
+          puts "--cols #{@@key_chains.sample(3).join(',')}"
         end
 
-        def self.get_target_array hash, target, id=nil
+        def self.get_target_array(hash, target, id=nil)
           begin
             a = hash
             target.split('.').each do |key|
@@ -31,7 +31,7 @@ module Cc
 
         private
 
-        def self.key_chains elements, string, ignores=nil
+        def self.key_chains(elements, string, ignores=nil)
           return unless elements
 
           if elements.class == Hash
@@ -41,7 +41,9 @@ module Cc
           elsif elements.class == Array
             begin
               elements.first.each do |key, array|
-                self.key_chains array, string + '<index>.' + key.to_s + '.', ignores
+                self.key_chains(array,
+                                string + '<index>.' + key.to_s + '.',
+                                ignores)
               end
             rescue
               return
@@ -66,7 +68,8 @@ module Cc
           end
         end
 
-        def self.all_elements_are_leaf array #elements' class are neither Array nor Hash
+        #elements' class are neither Array nor Hash
+        def self.all_elements_are_leaf(array)
           array.each do |a|
             return false if a.class == Array || a.class == Hash
           end

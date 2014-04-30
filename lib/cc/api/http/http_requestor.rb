@@ -12,6 +12,9 @@ module Cc
       class HttpRequestor
         def request_for_json(params)
           start_time = Time.now
+
+          log_request_action(params[:request])
+
           if params[:request][:method] == "POST"
             response_body = HTTParty.post(
                 params[:request][:url],
@@ -20,13 +23,22 @@ module Cc
                 :headers => { 'Content-Type' => 'application/json' }
             )
           else
-            response_body = HTTParty.get(params[:request][:url], :basic_auth => basic_auth)
+            response_body = HTTParty.get(params[:request][:url],
+                                         :basic_auth => basic_auth)
           end
-          puts "#{params[:request][:method] || "GET"} #{params[:request][:url]} #{params[:request][:body]}"
+
           end_time = Time.now
 
-          raise UnauthorizedAccessException, "You don't have enough privilege to access." if response_body.code == 401
-          raise ServerProblemException, "There's a problem with the server. Server response not expected." if response_body.code == 500
+          if response_body.code == 401
+            raise UnauthorizedAccessException,
+              "You don't have enough privilege to access." 
+          end
+
+          if response_body.code == 500
+            raise ServerProblemException,
+              "There's a problem with the server. Server response not expected." 
+          end
+
           return {body: response_body, response_time: end_time - start_time}
         end
 
@@ -41,6 +53,10 @@ module Cc
 
         def license
           @license ||= Cc::Api::Util::ConfigReader.license
+        end
+
+        def log_request_action(request)
+          puts "#{request[:method] || "GET"} #{request[:url]} #{request[:body]}"
         end
       end
     end

@@ -24,7 +24,8 @@ module Cc
 
           def raise_license_key_exception
             raise LicenseKeysException, <<-EOS
-License keys not set properly. Place your keys at ~/.bashrc (linux) or ~/.profile (mac). Just add these lines:
+License keys not set properly. Place your keys at ~/.bashrc (linux) or
+~/.profile (mac). Just add these lines:
 
 export CC_API_LOGIN=<login>
 export CC_API_KEY=<key>

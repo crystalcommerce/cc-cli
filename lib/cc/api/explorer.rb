@@ -62,6 +62,7 @@ module Cc
                      "separated by comma"
           }
 
+
         option :csv, :desc => DESC["csv"], :banner => "CSV_FILE_PATH"
         option :cols, :desc => DESC["cols"]
         option :available_cols, :type => :boolean, :desc => DESC["available_cols"]
@@ -73,9 +74,9 @@ module Cc
         option :id, :desc => DESC["id"]
         option :skus, :desc => DESC["skus"]
         desc "market_data [products --id <PRODUCT ID> "\
-             "--skus <PRODUCT SKUS separated by ','>] | "\
+             "--skus <PRODUCT SKUS separated by ','>] |"\
              "[offers --id <PRODUCT ID> "\
-             "--skus <PRODUCT SKUS separated by comma>] | [stores]",
+             "--skus <PRODUCT SKUS separated by comma>] | stores]",
              "The Market Data APIs track the Prices, Quantities, and similar "\
              "data. It also indicates which stores in the CrystalCommerce "\
              "in-network currently has those products for sale."
@@ -166,7 +167,9 @@ module Cc
         option :page, :type => :numeric, :desc => DESC["page"]
         option :store, :desc => DESC["store"]
 
-        desc "store [products --store <store name>]",
+        desc "store [products --store <store name>]"\
+            "\n\n For more detailed instructions please visit "\
+            "https://github.com/crystalcommerce/cc-cli#readme",
           "The Store Data API provides access to the data related to a "\
           "single store whereas the Market Data API applies to all stores."
         def store(subcommand)

@@ -73,19 +73,9 @@ describe Cc::Api::Util::ConfigReader do
     it "creates a '.cc_api.yml' and saved user/pass in it" do
       file = mock('file')
       File.should_receive(:open).with(".cc_api.yml", "w").and_yield(file)
-      file.should_receive(:write).with("---\n:cc_api_credentials:\n  :username: john\n  :license_key: 1231239asjh123uasdh123\n")
+      file.should_receive(:write).with("---\ncc_api_credentials:\n  username: john\n  license_key: 1231239asjh123uasdh123\n")
       Cc::Api::Util::CredentialWriter.write('john', '1231239asjh123uasdh123')
     end
   end
 
-  context "keys present but blank" do
-    let(:login) { "" }
-    let(:key) { "" }
-
-    it "should raise error if CC_API_KEY is blank" do
-      expect {
-        Cc::Api::Util::ConfigReader.license
-      }.to raise_error Cc::Api::Util::LicenseKeysException
-    end
-  end
 end

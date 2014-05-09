@@ -1,8 +1,6 @@
 module Cc
   module Api
     module Util
-      class LicenseKeysException < StandardError
-      end
 
       class ConfigReader
         License = Struct.new(:username, :password)

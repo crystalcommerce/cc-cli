@@ -2,6 +2,10 @@
 
 This is a command line client for exploring CrystalCommerce APIs
 
+## Prerequisite
+
+- Ruby version >= 1.9.3
+
 ## Installation
 
 Install it:

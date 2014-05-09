@@ -70,10 +70,11 @@ describe Cc::Api::Util::ConfigReader do
     let(:login) { nil }
     let(:key) { nil }
 
-    it "should raise error if CC_API_KEY from user's environment is not found" do
-      expect {
-        Cc::Api::Util::ConfigReader.license
-      }.to raise_error Cc::Api::Util::LicenseKeysException 
+    it "creates a '.cc_api.yml' and saved user/pass in it" do
+      file = mock('file')
+      File.should_receive(:open).with(".cc_api.yml", "w").and_yield(file)
+      file.should_receive(:write).with("---\n:cc_api_credentials:\n  :username: john\n  :license_key: 1231239asjh123uasdh123\n")
+      Cc::Api::Util::CredentialWriter.write('john', '1231239asjh123uasdh123')
     end
   end
 
@@ -84,7 +85,7 @@ describe Cc::Api::Util::ConfigReader do
     it "should raise error if CC_API_KEY is blank" do
       expect {
         Cc::Api::Util::ConfigReader.license
-      }.to raise_error Cc::Api::Util::LicenseKeysException 
+      }.to raise_error Cc::Api::Util::LicenseKeysException
     end
   end
 end

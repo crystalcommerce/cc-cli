@@ -16,20 +16,18 @@ module Cc
           def get_keys
             login = ENV.fetch("CC_API_LOGIN")
             key   = ENV.fetch("CC_API_KEY")
-            raise_license_key_exception if login.empty? || key.empty?
-            [login, key]
+            if login.empty? || key.empty?
+              read_get_cc_keys
+            else
+              [login, key]
+            end
           rescue KeyError
-            raise_license_key_exception
+            read_get_cc_keys
           end
 
-          def raise_license_key_exception
-            raise LicenseKeysException, <<-EOS
-License keys not set properly. Place your keys at ~/.bashrc (linux) or
-~/.profile (mac). Just add these lines:
-
-export CC_API_LOGIN=<login>
-export CC_API_KEY=<key>
-            EOS
+          def read_get_cc_keys
+            keys = Cc::Api::Util::CredentialWriter.get_keys
+            (keys.empty? && Cc::Api::Util::CredentialWriter.setup) || keys
           end
         end
       end

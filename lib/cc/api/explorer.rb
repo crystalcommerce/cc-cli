@@ -8,6 +8,7 @@ require 'cc/api/util/key_chains_getter'
 require 'command_line_reporter'
 require 'thor'
 require 'yaml'
+require 'cc/api/util/credential_writer'
 
 module Cc
   module Api

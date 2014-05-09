@@ -1,8 +1,5 @@
 test:
   override:
-    - rvm use --default 1.9.1
-    - bundle install
-    - bundle exec rspec
     - rvm use --default 1.9.3
     - bundle install
     - bundle exec rspec

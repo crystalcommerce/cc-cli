@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'cc/api/explorer'
+require_relative '../lib/cc/api/explorer'
 require 'httparty'
 require 'command_line_reporter'
 Cc::Api::Explorer::CLI.start

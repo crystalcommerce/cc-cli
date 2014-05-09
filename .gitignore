@@ -18,3 +18,4 @@ tmp
 null.txt
 *.gem
 .env
+.cc_api.yml

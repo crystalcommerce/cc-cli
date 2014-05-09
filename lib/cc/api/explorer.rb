@@ -76,7 +76,7 @@ module Cc
         desc "market_data [products --id <PRODUCT ID> "\
              "--skus <PRODUCT SKUS separated by ','>] |"\
              "[offers --id <PRODUCT ID> "\
-             "--skus <PRODUCT SKUS separated by comma>] | stores]",
+             "--skus <PRODUCT SKUS separated by comma>] | [stores]",
              "The Market Data APIs track the Prices, Quantities, and similar "\
              "data. It also indicates which stores in the CrystalCommerce "\
              "in-network currently has those products for sale."
